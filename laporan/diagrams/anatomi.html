@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Anatomi Antarmuka — SIAGA Command Center</title>
+<style>
+  @font-face {
+    font-family: "Manrope";
+    src: url("../../mockup/assets/fonts/Manrope-latin.woff2") format("woff2");
+    font-weight: 200 800;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    width: 1500px; height: 1080px; overflow: hidden;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    background: #f8f3f4; color: #201417;
+    -webkit-font-smoothing: antialiased;
+  }
+  .canvas {
+    width: 1500px; height: 1080px; padding: 40px 52px;
+    background:
+      radial-gradient(700px 380px at 92% 0%, rgba(122,31,43,.07), transparent 65%),
+      radial-gradient(460px 300px at 0% 100%, rgba(122,31,43,.05), transparent 70%);
+    position: relative;
+  }
+  .kicker { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #7a1f2b; }
+  h1 { margin: 7px 0 0; font-size: 30px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+  .sub { margin: 7px 0 0; font-size: 12.5px; color: #7c666b; }
+  .meta { position: absolute; right: 52px; top: 44px; font-size: 9px; color: #9a8286; text-align: right; line-height: 1.6; }
+  .meta b { color: #201417; font-weight: 700; }
+
+  .shot {
+    position: absolute; left: 65px; top: 135px;
+    width: 1370px; height: 856px;
+    border-radius: 14px;
+    border: 1px solid #3a2026;
+    box-shadow: 0 30px 60px -30px rgba(32,10,14,.55), 0 2px 0 rgba(255,255,255,.04) inset;
+    overflow: hidden;
+    background: #060a12;
+  }
+  .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .badge {
+    position: absolute; z-index: 5;
+    width: 32px; height: 32px; border-radius: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff; color: #4c101a;
+    display: grid; place-items: center;
+    font-size: 13px; font-weight: 800;
+    box-shadow: 0 0 0 5px rgba(180, 35, 53, .22), 0 6px 16px rgba(0,0,0,.45);
+  }
+  .badge::after {
+    content: ""; position: absolute; inset: -11px; border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,.35);
+  }
+
+  .legend {
+    position: absolute; left: 65px; bottom: 16px;
+    width: 1370px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px;
+  }
+  .item {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 8px 9px; border-radius: 9px;
+    background: rgba(255,255,255,.66); border: 1px solid #e8dcdd;
+  }
+  .item .n {
+    width: 18px; height: 18px; border-radius: 50%; flex: none;
+    display: grid; place-items: center;
+    background: #7a1f2b; color: #fff; font-size: 9px; font-weight: 800;
+    margin-top: 1px;
+  }
+  .item b { display: block; font-size: 10.5px; font-weight: 800; letter-spacing: -.01em; }
+  .item span { display: block; font-size: 9px; color: #7c666b; line-height: 1.35; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="kicker">Anatomi Antarmuka · High-Fidelity Mockup</div>
+  <h1>Lima zona informasi, satu layar keputusan</h1>
+  <p class="sub">Setiap area layar punya alasan matematis dan fungsi operasional — bukan sekadar dekorasi.</p>
+  <div class="meta">Rasio <b>16:10</b> · 1600 × 1000 px<br/>Mode gelap · SIAGA Command Center</div>
+
+  <div class="shot">
+    <img src="../../screenshots/01-dashboard-utama.png" alt="Mockup dashboard eksekutif SIAGA" />
+    <span class="badge" style="left:47.9%;top:24.2%">1</span>
+    <span class="badge" style="left:34%;top:64%">2</span>
+    <span class="badge" style="left:75.8%;top:30%">3</span>
+    <span class="badge" style="left:45.3%;top:80.6%">5</span>
+    <span class="badge" style="left:76%;top:94%">4</span>
+  </div>
+
+  <div class="legend">
+    <div class="item"><span class="n">1</span><div><b>Indikator kinerja</b><span>Empat KPI dengan delta, konteks, dan sparkline.</span></div></div>
+    <div class="item"><span class="n">2</span><div><b>Peta tiga warna</b><span>Pin GLCM–PCA, jumlah per kelas, timestamp data.</span></div></div>
+    <div class="item"><span class="n">3</span><div><b>Prioritas tindakan</b><span>Top 5 WP/TOPSIS, skor, status, kesiapan sumber daya.</span></div></div>
+    <div class="item"><span class="n">4</span><div><b>Keyakinan model</b><span>Gauge NNBP 93,81% dan rekomendasi satu klik.</span></div></div>
+    <div class="item"><span class="n">5</span><div><b>Umpan &amp; transparansi</b><span>Aktivitas langsung, status API, waktu sinkron.</span></div></div>
+  </div>
+</div>
+</body>
+</html>

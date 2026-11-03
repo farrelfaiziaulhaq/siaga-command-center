@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SIAGA Command Center — Pusat Komando Pascabencana</title>
+<meta name="description" content="Mockup high-fidelity Executive Dashboard Sistem Informasi Manajemen Bencana BNPB/BPBD — Tugas Minggu 9." />
+<link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body>
+
+<!-- ============ ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12h1.4l1.1-3 2 6 1.1-3H17"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M3 10h18M10 3v18"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5M12 15V3"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="2.5"/></symbol>
+    <symbol id="i-maximize" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0M8.53 16.11a6 6 0 0 1 6.95 0"/><path d="M12 20h.01"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.8 10A10 10 0 1 1 17 3.34"/><path d="m9 11 3 3L22 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+    <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M8 16H3v5"/></symbol>
+    <symbol id="i-radio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M4.93 19.07a10 10 0 0 1 0-14.14M19.07 4.93a10 10 0 0 1 0 14.14M7.76 16.24a6 6 0 0 1 0-8.49M16.24 7.76a6 6 0 0 1 0 8.49"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M10 17h4V5H2v12h3M14 9h4l4 4v4h-3"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2M10 6h4M10 10h4M10 14h4M10 18h4"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></symbol>
+    <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-trend-up" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+    <symbol id="i-trend-down" viewBox="0 0 24 24"><path d="m3 7 6 6 4-4 8 8"/><path d="M15 17h6v-6"/></symbol>
+  </defs>
+</svg>
+
+<div class="app">
+
+  <!-- ============ TOP BAR ============ -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark"><svg><use href="#i-shield"/></svg></div>
+      <div class="brand-text">
+        <span class="brand-name">SIAGA</span>
+        <span class="brand-sub">COMMAND CENTER</span>
+      </div>
+    </div>
+    <div class="v-divider"></div>
+    <div class="crumbs">
+      <span>BNPB</span><span class="sep">/</span>
+      <strong>BPBD Kota Malang</strong><span class="sep">/</span>
+      <span>Operasi Pascabencana</span>
+    </div>
+    <div class="topbar-spacer"></div>
+
+    <label class="search">
+      <svg class="icon sm"><use href="#i-search"/></svg>
+      <input id="globalSearch" type="search" placeholder="Cari area atau ID bangunan…" aria-label="Cari area atau ID bangunan" />
+      <kbd>Ctrl K</kbd>
+    </label>
+
+    <div class="sync-chip" title="Sinkronisasi data berjalan">
+      <span class="pulse-dot"></span>
+      <span>Sistem normal</span>
+    </div>
+
+    <div class="clock"><span id="clock">14:32:08</span><small>WIB</small></div>
+
+    <button class="icon-btn" aria-label="Notifikasi" id="bellBtn">
+      <svg class="icon"><use href="#i-bell"/></svg>
+      <span class="badge"></span>
+    </button>
+
+    <div class="profile">
+      <div class="avatar">FA</div>
+      <div class="profile-meta"><b>Farrel A.</b><span>EKSEKUTIF BPBD</span></div>
+      <svg class="icon xs" style="color:#5d6f89"><use href="#i-chevron-down"/></svg>
+    </div>
+  </header>
+
+  <div class="shell">
+
+    <!-- ============ RAIL ============ -->
+    <nav class="rail" aria-label="Navigasi utama">
+      <button class="rail-btn active" data-tip="Ringkasan" aria-label="Ringkasan"><svg class="icon"><use href="#i-grid"/></svg></button>
+      <button class="rail-btn" data-tip="Peta kerusakan" aria-label="Peta kerusakan"><svg class="icon"><use href="#i-map-pin"/></svg></button>
+      <button class="rail-btn" data-tip="Daftar prioritas" aria-label="Daftar prioritas"><svg class="icon"><use href="#i-table"/></svg></button>
+      <button class="rail-btn" data-tip="Analitik" aria-label="Analitik"><svg class="icon"><use href="#i-chart"/></svg></button>
+      <div class="rail-sep"></div>
+      <button class="rail-btn" data-tip="Sumber daya" aria-label="Sumber daya"><svg class="icon"><use href="#i-box"/></svg></button>
+      <button class="rail-btn" data-tip="Laporan" aria-label="Laporan"><svg class="icon"><use href="#i-file"/></svg></button>
+      <div class="rail-spacer"></div>
+      <button class="rail-btn" data-tip="Bantuan" aria-label="Bantuan"><svg class="icon"><use href="#i-help"/></svg></button>
+      <button class="rail-btn" data-tip="Pengaturan" aria-label="Pengaturan"><svg class="icon"><use href="#i-settings"/></svg></button>
+    </nav>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">
+            <span>Gempa M6,2 · Sektor Utara</span>
+            <span class="tag">H+2</span>
+          </div>
+          <h1>Pusat Komando Pascabencana</h1>
+          <p class="page-sub">Ringkasan situasi, prioritas bantuan, dan keyakinan model dalam satu layar.</p>
+        </div>
+        <div class="head-actions">
+          <div class="segmented" role="group" aria-label="Rentang waktu">
+            <button class="active">24 jam</button>
+            <button>7 hari</button>
+            <button>30 hari</button>
+          </div>
+          <button class="btn">
+            <svg class="icon sm"><use href="#i-map-pin"/></svg>
+            Semua wilayah
+            <svg class="icon xs" style="color:#5d6f89"><use href="#i-chevron-down"/></svg>
+          </button>
+          <button class="btn primary">
+            <svg class="icon sm"><use href="#i-download"/></svg>
+            Ekspor laporan
+          </button>
+        </div>
+      </div>
+
+      <div class="alert-banner" id="alertBanner">
+        <svg class="icon sm"><use href="#i-alert"/></svg>
+        <span><b>3 area berstatus kritis</b> memerlukan tindakan dalam 6 jam ke depan.</span>
+        <span class="sep"></span>
+        <button class="link" id="alertLink">Lihat prioritas</button>
+        <span class="spacer"></span>
+        <button class="close" id="alertClose" aria-label="Tutup pemberitahuan">
+          <svg class="icon xs"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <!-- KPI -->
+      <section class="kpis" aria-label="Indikator kinerja utama">
+        <article class="kpi" style="--glow:rgba(56,189,248,.13)">
+          <div class="kpi-top">
+            <span class="kpi-label">Pengungsi Terdata</span>
+            <span class="kpi-ic"><svg class="icon"><use href="#i-users"/></svg></span>
+          </div>
+          <div class="kpi-main">
+            <div class="kpi-value" data-count="4286">4.286<small>jiwa</small></div>
+            <svg class="spark" viewBox="0 0 62 26" fill="none" aria-hidden="true">
+              <path d="M1 23 L9 20 L17 21 L25 15 L33 17 L41 11 L49 12 L61 4" stroke="#38bdf8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 23 L9 20 L17 21 L25 15 L33 17 L41 11 L49 12 L61 4 L61 26 L1 26Z" fill="url(#sp1)" opacity=".5"/>
+              <defs><linearGradient id="sp1" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#38bdf8" stop-opacity=".45"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="kpi-foot">
+            <span class="delta up"><svg class="icon xs" style="width:8px;height:8px"><use href="#i-trend-up"/></svg>128</span>
+            <span>bertambah sejak kemarin</span>
+          </div>
+        </article>
+
+        <article class="kpi" style="--glow:rgba(245,158,11,.1)">
+          <div class="kpi-top">
+            <span class="kpi-label">Bangunan Terdampak</span>
+            <span class="kpi-ic" style="--ic:#fbbf24;--ic-bg:rgba(245,158,11,.09);--ic-bd:rgba(245,158,11,.18)"><svg class="icon"><use href="#i-building"/></svg></span>
+          </div>
+          <div class="kpi-main">
+            <div class="kpi-value" data-count="1284">1.284<small>unit</small></div>
+            <svg class="spark" viewBox="0 0 62 26" fill="none" aria-hidden="true">
+              <path d="M1 24 L9 22 L17 19 L25 21 L33 14 L41 16 L49 9 L61 7" stroke="#fbbf24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1 24 L9 22 L17 19 L25 21 L33 14 L41 16 L49 9 L61 7 L61 26 L1 26Z" fill="url(#sp2)" opacity=".45"/>
+              <defs><linearGradient id="sp2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fbbf24" stop-opacity=".4"/><stop offset="1" stop-color="#fbbf24" stop-opacity="0"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="kpi-foot">
+            <span class="sev-dots"><span style="color:#86efac"><i style="background:#22c55e"></i>812</span></span>
+            <span class="sev-dots"><span style="color:#fcd34d"><i style="background:#f59e0b"></i>341</span></span>
+            <span class="sev-dots"><span style="color:#fca5a5"><i style="background:#ef4444"></i>131</span></span>
+          </div>
+        </article>
+
+        <article class="kpi" style="--glow:rgba(239,68,68,.13)">
+          <div class="kpi-top">
+            <span class="kpi-label">Area Kritis</span>
+            <span class="kpi-ic" style="--ic:#fca5a5;--ic-bg:rgba(239,68,68,.1);--ic-bd:rgba(239,68,68,.2)"><svg class="icon"><use href="#i-alert"/></svg></span>
+          </div>
+          <div class="kpi-main">
+            <div class="kpi-value" data-count="12">12<small>area</small></div>
+            <span class="delta down" style="margin-bottom:3px">+3 baru</span>
+          </div>
+          <div class="kpi-foot">
+            <span style="color:#fca5a5">5 prioritas utama</span>
+            <span style="color:#3d4f68">·</span>
+            <span>radius 3,2 km</span>
+          </div>
+        </article>
+
+        <article class="kpi" style="--glow:rgba(52,211,153,.12)">
+          <div class="kpi-top">
+            <span class="kpi-label">Akurasi Model NNBP</span>
+            <span class="kpi-ic" style="--ic:#6ee7b7;--ic-bg:rgba(52,211,153,.09);--ic-bd:rgba(52,211,153,.18)"><svg class="icon"><use href="#i-cpu"/></svg></span>
+          </div>
+          <div class="kpi-main">
+            <div class="kpi-value">93,81<small>%</small></div>
+            <svg class="spark" viewBox="0 0 62 26" fill="none" aria-hidden="true">
+              <path d="M1 18 L9 17 L17 14 L25 15 L33 10 L41 11 L49 6 L61 5" stroke="#34d399" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="61" cy="5" r="2.2" fill="#34d399"/>
+            </svg>
+          </div>
+          <div class="kpi-foot">
+            <span style="color:#86efac">Model A2</span>
+            <span style="color:#3d4f68">·</span>
+            <span>1.157 data uji</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- WORKSPACE -->
+      <div class="workspace">
+
+        <div class="col-left">
+
+          <!-- MAP -->
+          <section class="card map-card" aria-label="Peta kerusakan bangunan">
+            <div class="card-head">
+              <div class="card-title">
+                <h2>Sebaran Kerusakan Bangunan</h2>
+                <p>Klasifikasi otomatis GLCM–PCA · tiga tingkat keparahan</p>
+              </div>
+              <div class="card-head-right">
+                <div class="chips" id="mapFilters" role="group" aria-label="Filter tingkat kerusakan">
+                  <button class="chip active" data-sev="all">Semua</button>
+                  <button class="chip" data-sev="ringan"><span class="dot" style="background:#22c55e"></span>Ringan</button>
+                  <button class="chip" data-sev="sedang"><span class="dot" style="background:#f59e0b"></span>Sedang</button>
+                  <button class="chip" data-sev="berat"><span class="dot" style="background:#ef4444"></span>Berat</button>
+                </div>
+                <button class="live-chip" id="liveToggle" title="Jeda / lanjutkan data langsung">
+                  <span class="pulse-dot"></span><span id="liveLabel">Langsung</span>
+                </button>
+              </div>
+            </div>
+            <div class="map-wrap" id="mapWrap">
+              <img class="map-img" src="assets/img/map-malang.png" alt="Peta Kota Malang dengan sebaran titik kerusakan bangunan" />
+              <div class="map-tint"></div>
+              <div class="map-grid"></div>
+
+              <div class="map-note">
+                <svg class="icon"><use href="#i-spark"/></svg>
+                <span><b id="pinCount">13</b> titik aktif · <span id="mapUpdated">diperbarui 2 dtk lalu</span></span>
+              </div>
+
+              <div class="district-label" style="left:50%;top:19%">LOWOKWARU</div>
+              <div class="district-label" style="left:76%;top:30%">BLIMBING</div>
+              <div class="district-label" style="left:36%;top:49%">KLOJEN</div>
+              <div class="district-label" style="left:27%;top:79%">SUKUN</div>
+              <div class="district-label" style="left:69%;top:67%">KEDUNGKANDANG</div>
+
+              <div class="map-pins" id="mapPins"></div>
+              <div class="pin-tip" id="pinTip" aria-hidden="true"></div>
+
+              <div class="map-controls" aria-label="Kontrol peta">
+                <button class="map-ctl" id="zoomIn" aria-label="Perbesar peta"><svg class="icon"><use href="#i-plus"/></svg></button>
+                <button class="map-ctl" id="zoomOut" aria-label="Perkecil peta"><svg class="icon"><use href="#i-minus"/></svg></button>
+                <button class="map-ctl" aria-label="Pusatkan ke lokasi"><svg class="icon"><use href="#i-locate"/></svg></button>
+                <button class="map-ctl" aria-label="Perbesar tampilan"><svg class="icon"><use href="#i-maximize"/></svg></button>
+              </div>
+
+              <div class="map-legend">
+                <div class="legend-head"><span>Tingkat kerusakan</span><b id="legendTotal">13</b></div>
+                <div class="legend-row" style="--c:#22c55e"><span class="swatch"></span>Ringan <span class="count" id="countRingan">4</span></div>
+                <div class="legend-row" style="--c:#f59e0b"><span class="swatch"></span>Sedang <span class="count" id="countSedang">4</span></div>
+                <div class="legend-row" style="--c:#ef4444"><span class="swatch"></span>Berat <span class="count" id="countBerat">5</span></div>
+              </div>
+
+              <div class="map-foot">
+                <div class="scalebar"><span>1 km</span><div class="bar"></div></div>
+                <span>© OpenStreetMap · Esri</span>
+              </div>
+
+              <div class="map-toast" id="mapToast"></div>
+            </div>
+          </section>
+
+          <div class="bottom-row">
+            <!-- TREND -->
+            <section class="card trend" aria-label="Aliran data pascabencana">
+              <div class="card-head">
+                <div class="card-title">
+                  <h2>Aliran Data Pascabencana</h2>
+                  <p>Laporan surveior vs prediksi model · 14 hari</p>
+                </div>
+                <div class="card-head-right">
+                  <div class="legend-inline">
+                    <span><i style="background:#38bdf8"></i>Terverifikasi</span>
+                    <span><i style="background:#64748b"></i>Prediksi</span>
+                  </div>
+                </div>
+              </div>
+              <div class="chart-wrap">
+                <div class="chart-note"><span>Hari ini</span><b>312 laporan</b></div>
+                <svg id="trendChart" viewBox="0 0 660 118" preserveAspectRatio="none" aria-label="Grafik aliran laporan harian"></svg>
+              </div>
+            </section>
+
+            <!-- FEED -->
+            <section class="card feed" aria-label="Aktivitas langsung">
+              <div class="card-head">
+                <div class="card-title">
+                  <h2>Aktivitas Langsung</h2>
+                  <p>Umpan data dari lapangan &amp; model</p>
+                </div>
+                <span class="live-chip"><span class="pulse-dot"></span>Live</span>
+              </div>
+              <div class="feed-list" id="feedList"></div>
+              <div class="feed-more">24 aktivitas hari ini <svg class="icon" style="width:9px;height:9px"><use href="#i-chevron-right"/></svg></div>
+            </section>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <aside class="col-right">
+
+          <!-- PRIORITY -->
+          <section class="card priority" aria-label="Daftar prioritas tindakan">
+            <div class="card-head">
+              <div class="card-title">
+                <h2>Prioritas Tindakan</h2>
+                <p>Peringkat area · metode WP + TOPSIS</p>
+              </div>
+              <div class="card-head-right">
+                <span class="source-badge">DSS · WP/TOPSIS</span>
+                <button class="icon-btn" style="width:26px;height:26px" aria-label="Opsi pengurutan">
+                  <svg class="icon sm"><use href="#i-filter"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="table-head">
+              <span>#</span><span>Area / ID</span><span>Skor</span><span style="text-align:right">Status</span>
+            </div>
+            <div class="p-rows" id="priorityRows"></div>
+            <div class="resource-block">
+              <div class="res-head"><span>Kesiapan sumber daya</span><span>Diperbarui 2 mnt lalu</span></div>
+              <div class="res-row"><span>Tim SAR</span><div class="res-bar"><div style="width:67%"></div></div><b>6/9</b></div>
+              <div class="res-row"><span>Tenda</span><div class="res-bar"><div style="width:43%;background:#f59e0b"></div></div><b>340/800</b></div>
+              <div class="res-row"><span>Air bersih</span><div class="res-bar"><div style="width:69%;background:#34d399"></div></div><b>69%</b></div>
+            </div>
+            <div class="p-foot">
+              <span>Diperbarui otomatis · bobot X1–X5</span>
+              <a href="#" id="seeAllPriority">Semua area <svg class="icon xs"><use href="#i-chevron-right"/></svg></a>
+            </div>
+          </section>
+
+          <!-- CONFIDENCE -->
+          <section class="card confidence" aria-label="Keyakinan prediksi model">
+            <div class="conf-top">
+              <div class="gauge">
+                <svg viewBox="0 0 84 84">
+                  <defs>
+                    <linearGradient id="gaugeGrad" x1="0" y1="1" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#22c55e"/>
+                      <stop offset="55%" stop-color="#34d399"/>
+                      <stop offset="100%" stop-color="#a7f3d0"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="track" cx="42" cy="42" r="34" stroke-width="6" stroke-dasharray="160.2 213.6" fill="none" stroke-linecap="round"/>
+                  <circle class="val" id="gaugeVal" cx="42" cy="42" r="34" stroke-width="6" stroke-dasharray="160.2 213.6" stroke-dashoffset="160.2" fill="none"/>
+                </svg>
+                <div class="gauge-center">
+                  <b>93,8<span>%</span></b>
+                  <small>Akurasi</small>
+                </div>
+              </div>
+              <div class="conf-meta">
+                <div class="conf-title">Keyakinan Prediksi
+                  <svg class="icon xs" style="color:#34d399"><use href="#i-check-circle"/></svg>
+                </div>
+                <div class="conf-sub">Neural Network Backpropagation<br/>Model A2 · 40–38–36–34</div>
+                <span class="conf-badge"><svg class="icon" style="width:9px;height:9px"><use href="#i-shield"/></svg>TERVALIDASI · 1.157 UJI</span>
+              </div>
+            </div>
+            <div class="conf-rec">
+              <span class="ic"><svg class="icon"><use href="#i-check"/></svg></span>
+              <span class="txt">
+                <b>Rekomendasi: evakuasi Zona A</b>
+                <span>128 KK · keyakinan 93,8% · prioritas utama</span>
+              </span>
+              <button class="go" id="deployRec" aria-label="Kirim rekomendasi"><svg class="icon"><use href="#i-send"/></svg></button>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <footer class="statusbar">
+        <div class="st"><span class="ok-dot"></span>API Gateway <b>42 ms</b></div>
+        <div class="st"><span class="ok-dot"></span>WebSocket <b>terhubung</b></div>
+        <div class="st"><svg class="icon" style="width:10px;height:10px;color:#5d6f89"><use href="#i-radio"/></svg>Sumber: <b>Mobile Surveyor · BPBD · BMKG</b></div>
+        <div class="grow"></div>
+        <div class="st mono">Sinkron terakhir <b id="syncTime">14:32:08</b> WIB</div>
+        <div class="st">Data simulasi untuk keperluan purwarupa</div>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<!-- ============ DRAWER ============ -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Detail bangunan" aria-hidden="true">
+  <div class="drawer-head">
+    <div>
+      <div class="eyebrow">Detail Bangunan · <span id="drawerId">B-182</span></div>
+      <h3 id="drawerName">Kel. Penanggungan</h3>
+      <div class="loc"><svg class="icon"><use href="#i-map-pin"/></svg><span id="drawerLoc">Klojen · -7,9725 / 112,6305</span></div>
+    </div>
+    <button class="icon-btn" id="drawerClose" aria-label="Tutup detail">
+      <svg class="icon"><use href="#i-x"/></svg>
+    </button>
+  </div>
+
+  <div class="drawer-status" id="drawerStatus">
+    <span class="sev-ic"><svg class="icon"><use href="#i-alert"/></svg></span>
+    <span class="txt"><b id="drawerSev">Rusak Berat</b><span id="drawerSevSub">Prioritas utama · tindakan &lt; 6 jam</span></span>
+    <span class="score"><b id="drawerScore">9,85</b><span>Skor DSS</span></span>
+  </div>
+
+  <div class="drawer-body">
+    <div class="d-metrics">
+      <div class="d-metric"><span>KK Terdampak</span><b id="mKK">128<small>KK</small></b></div>
+      <div class="d-metric"><span>Bangunan</span><b id="mBangunan">12<small>unit</small></b></div>
+      <div class="d-metric"><span>Keyakinan</span><b id="mProb">93,8<small>%</small></b></div>
+    </div>
+
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Prediksi Kerusakan · NNBP</h4><span class="tag">MODEL A2</span></div>
+      <div id="probRows"></div>
+    </div>
+
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Komponen Penilaian DSS</h4><span>Bobot X1–X5</span></div>
+      <div id="critRows"></div>
+    </div>
+
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Metadata Laporan</h4><span>ID <b id="metaId">B-182</b></span></div>
+      <div class="d-meta">
+        <div><span>Kecamatan</span><b id="metaKec">Klojen</b></div>
+        <div><span>Koordinat</span><b id="metaCoord">-7,9725 / 112,6305</b></div>
+        <div><span>Surveyor</span><b id="metaSurveyor">Budi S. · B-12</b></div>
+        <div><span>Waktu survei</span><b id="metaTime">03/11/2026 · 14:28 WIB</b></div>
+        <div><span>Sumber</span><b>Mobile Surveyor</b></div>
+        <div><span>Validasi</span><b>GLCM–PCA + NNBP</b></div>
+      </div>
+    </div>
+
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Rekomendasi Tindakan</h4><span>Diurutkan skor</span></div>
+      <div class="rec-list">
+        <div class="rec-item"><span class="num">1</span><p><b>Evakuasi 128 KK</b> ke titik pengungsian Kec. Klojen dalam 6 jam.</p></div>
+        <div class="rec-item"><span class="num">2</span><p><b>Kirim 2 tim SAR</b> dan alat berat untuk pembersihan akses jalan.</p></div>
+      </div>
+    </div>
+
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Riwayat Validasi</h4><span>Otomatis</span></div>
+      <div class="d-timeline">
+        <div class="tl-item" style="--c:#38bdf8"><b>Laporan diterima dari Surveyor B-12</b><span>14:28 WIB · payload JSON · 2 foto</span></div>
+        <div class="tl-item" style="--c:#38bdf8"><b>Klasifikasi GLCM–PCA selesai</b><span>14:29 WIB · n = 2,08 · Rusak Berat</span></div>
+        <div class="tl-item" style="--c:#34d399"><b>Prediksi NNBP tervalidasi</b><span>14:30 WIB · keyakinan 93,8%</span></div>
+        <div class="tl-item" style="--c:#f59e0b"><b>Masuk peringkat #1 DSS</b><span>14:31 WIB · skor WP + TOPSIS 9,85</span></div>
+      </div>
+    </div>
+    <div class="d-sec">
+      <div class="d-sec-head"><h4>Lampiran</h4><span>5 berkas</span></div>
+      <div class="attach-row">
+        <button class="attach"><svg class="icon"><use href="#i-file"/></svg>Foto survei <b>4</b></button>
+        <button class="attach"><svg class="icon"><use href="#i-file"/></svg>Berita acara <b>1</b></button>
+      </div>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn primary" style="flex:1.3"><svg class="icon sm"><use href="#i-truck"/></svg>Tugaskan tim</button>
+    <button class="btn"><svg class="icon sm"><use href="#i-arrow-ur"/></svg>Eskalasi</button>
+  </div>
+</aside>
+
+<div class="toasts" id="toasts"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

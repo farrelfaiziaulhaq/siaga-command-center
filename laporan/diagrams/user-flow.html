@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>User Flow — SIAGA Command Center</title>
+<style>
+  @font-face {
+    font-family: "Manrope";
+    src: url("../../mockup/assets/fonts/Manrope-latin.woff2") format("woff2");
+    font-weight: 200 800;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    width: 1400px; height: 820px; overflow: hidden;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    background: #f8f3f4;
+    color: #201417;
+    -webkit-font-smoothing: antialiased;
+  }
+  .canvas { position: relative; width: 1400px; height: 820px; padding: 42px 48px; background:
+    radial-gradient(700px 380px at 85% 0%, rgba(122,31,43,.07), transparent 65%),
+    radial-gradient(500px 300px at 0% 100%, rgba(122,31,43,.05), transparent 70%);
+  }
+  .kicker { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: #7a1f2b; }
+  h1 { margin: 8px 0 0; font-size: 31px; line-height: 1.1; letter-spacing: -.03em; font-weight: 800; }
+  .sub { margin: 8px 0 0; font-size: 13px; color: #7c666b; max-width: 720px; line-height: 1.5; }
+  .legend { position: absolute; right: 48px; top: 46px; display: flex; gap: 16px; align-items: center; font-size: 9.5px; color: #7c666b; }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+  .legend .l1 { background: #fff; border: 1px solid #e3d3d5; }
+  .legend .l2 { background: #1a0e11; }
+  .legend .l3 { background: transparent; border: 1.5px dashed #7a1f2b; border-radius: 50%; }
+
+  .col-label { position: absolute; top: 138px; font-size: 9px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #9a8286; }
+  .col-label.left { left: 64px; }
+  .col-label.right { left: 720px; }
+
+  .step {
+    position: absolute; left: 64px; width: 520px; height: 84px;
+    background: #fff; border: 1px solid #e8dcdd; border-radius: 13px;
+    box-shadow: 0 6px 18px -12px rgba(32,20,23,.16);
+    padding: 13px 16px 12px 18px;
+    display: flex; gap: 13px;
+    border-left: 3px solid #7a1f2b;
+  }
+  .step .num {
+    width: 25px; height: 25px; border-radius: 8px; flex: none;
+    display: grid; place-items: center;
+    background: #e8f4f8; color: #7a1f2b;
+    font-size: 11px; font-weight: 800;
+    margin-top: 1px;
+  }
+  .step .body { flex: 1; min-width: 0; }
+  .step h3 { margin: 0; font-size: 16.5px; font-weight: 800; letter-spacing: -.015em; }
+  .step p { margin: 3px 0 0; font-size: 11.8px; line-height: 1.4; color: #7c666b; }
+  .step .tag {
+    position: absolute; right: 14px; top: 14px;
+    font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 5px;
+    background: #f1f5f9; color: #7c666b; border: 1px solid #e2e9f2;
+  }
+  .step .tag.red { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+  .step .tag.green { background: #ecfdf5; color: #047857; border-color: #bbf7d0; }
+  .step .tag.amber { background: #fffbeb; color: #b45309; border-color: #fde68a; }
+
+  .sys {
+    position: absolute; left: 720px; width: 616px; height: 76px;
+    background: linear-gradient(160deg, #201014, #150a0d);
+    border: 1px solid #3a2026; border-radius: 12px;
+    box-shadow: 0 10px 22px -16px rgba(2,6,23,.65);
+    padding: 11px 14px;
+    color: #f3e7e9;
+  }
+  .sys .method {
+    position: absolute; left: 14px; top: 13px;
+    font-family: Consolas, monospace; font-size: 9px; font-weight: 700;
+    padding: 2px 5px; border-radius: 4px; letter-spacing: .02em;
+    background: rgba(240,166,173,.12); color: #f0a6ad; border: 1px solid rgba(240,166,173,.22);
+  }
+  .sys .method.post { background: rgba(52,211,153,.11); color: #6ee7b7; border-color: rgba(52,211,153,.22); }
+  .sys .method.ws { background: rgba(245,158,11,.1); color: #fcd34d; border-color: rgba(245,158,11,.22); }
+  .sys .endpoint {
+    margin-left: 60px; font-family: Consolas, monospace; font-size: 12.5px;
+    color: #f0a6ad; letter-spacing: -.01em; white-space: nowrap;
+  }
+  .sys .desc { margin: 5px 0 0; font-size: 10.4px; color: #bda3a8; line-height: 1.4; }
+  .sys .lat {
+    position: absolute; right: 12px; top: 12px;
+    font-size: 8.5px; color: #9a8286; background: #241317; border: 1px solid #3a2026;
+    border-radius: 4px; padding: 2px 5px;
+  }
+
+  .loop-label {
+    position: absolute; left: 22px; top: 728px;
+    font-size: 7.5px; font-weight: 700; color: #7a1f2b;
+    text-align: left; line-height: 1.2;
+  }
+  .note {
+    position: absolute; left: 64px; top: 742px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .note span {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 9.5px; color: #7c666b; background: #fff;
+    border: 1px solid #e8dcdd; border-radius: 20px; padding: 5px 10px;
+  }
+  .note b { color: #201417; font-weight: 800; }
+  .note .dot { width: 5px; height: 5px; border-radius: 50%; background: #7a1f2b; }
+  .foot {
+    position: absolute; right: 48px; bottom: 34px;
+    font-size: 9px; color: #9a8286; text-align: right; line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="kicker">User Flow · Sistem Informasi Minggu 9</div>
+  <h1>Alur Pengguna Eksekutif: dari sinyal ke tindakan</h1>
+  <p class="sub">Lima langkah, satu putaran pemantauan — setiap keputusan disertai konteks visual dan keyakinan model.</p>
+
+  <div class="legend">
+    <span><i class="l1"></i>Langkah aktor</span>
+    <span><i class="l2"></i>Panggilan sistem</span>
+    <span><i class="l3"></i>Pemantauan</span>
+  </div>
+
+  <div class="col-label left">Aktor · Eksekutif BPBD</div>
+  <div class="col-label right">Sistem · API &amp; model</div>
+
+  <!-- connectors -->
+  <svg width="1400" height="820" style="position:absolute;inset:0;pointer-events:none">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aacbe"/>
+      </marker>
+      <marker id="arrowTeal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a1f2b"/>
+      </marker>
+    </defs>
+    <line x1="324" y1="234" x2="324" y2="264" stroke="#9aacbe" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <line x1="324" y1="356" x2="324" y2="386" stroke="#9aacbe" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <line x1="324" y1="478" x2="324" y2="508" stroke="#9aacbe" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <line x1="324" y1="600" x2="324" y2="630" stroke="#9aacbe" stroke-width="1.6" marker-end="url(#arrow)"/>
+    <path d="M 64 679 L 30 679 L 30 313 L 56 313" fill="none" stroke="#7a1f2b" stroke-width="1.5" stroke-dasharray="5 5" marker-end="url(#arrowTeal)"/>
+  </svg>
+
+  <!-- step 1 -->
+  <div class="step" style="top:150px">
+    <div class="num">1</div>
+    <div class="body">
+      <h3>Masuk &amp; pilih wilayah operasi</h3>
+      <p>SSO BNPB/BPBD dengan peran eksekutif, lalu pilih cakupan wilayah (Kota Malang).</p>
+    </div>
+    <span class="tag">± 10 dtk</span>
+  </div>
+  <div class="sys" style="top:154px">
+    <span class="method">POST</span>
+    <span class="endpoint">/auth/sso</span>
+    <span class="lat">JWT · 1,2 dtk</span>
+    <p class="desc">Token + role-based scope. Audit login tercatat otomatis.</p>
+  </div>
+
+  <!-- step 2 -->
+  <div class="step" style="top:272px">
+    <div class="num">2</div>
+    <div class="body">
+      <h3>Pindai ringkasan situasi</h3>
+      <p>Empat KPI utama, bilah peringatan, akurasi model, dan umpan lapangan terbaru.</p>
+    </div>
+    <span class="tag red">3 area kritis</span>
+  </div>
+  <div class="sys" style="top:276px">
+    <span class="method">GET</span>
+    <span class="endpoint">/dashboard/summary</span>
+    <span class="lat">cache 5 dtk</span>
+    <p class="desc">Agregasi KPI + aturan ambang: status merah atau skor DSS ≥ 9,0.</p>
+  </div>
+
+  <!-- step 3 -->
+  <div class="step" style="top:394px">
+    <div class="num">3</div>
+    <div class="body">
+      <h3>Buka prioritas &amp; periksa bukti</h3>
+      <p>Top 5 area (WP + TOPSIS), peta tiga warna GLCM–PCA, lalu detail prediksi NNBP.</p>
+    </div>
+    <span class="tag amber">1 klik</span>
+  </div>
+  <div class="sys" style="top:398px">
+    <span class="method">GET</span>
+    <span class="endpoint">/priority?limit=5 · /buildings/{id}</span>
+    <span class="lat">p95 180 ms</span>
+    <p class="desc">Skor WP/TOPSIS, kelas GLCM–PCA, probabilitas NNBP 93,81%, riwayat validasi.</p>
+  </div>
+
+  <!-- step 4 -->
+  <div class="step" style="top:516px">
+    <div class="num">4</div>
+    <div class="body">
+      <h3>Putuskan &amp; tugaskan</h3>
+      <p>Kirim tim SAR, alokasikan logistik, atau eskalasi ke tingkat provinsi.</p>
+    </div>
+    <span class="tag green">&lt; 60 dtk</span>
+  </div>
+  <div class="sys" style="top:520px">
+    <span class="method post">POST</span>
+    <span class="endpoint">/assignments</span>
+    <span class="lat">idempoten</span>
+    <p class="desc">Push notification ke tim, pembaruan status, dan jejak audit keputusan.</p>
+  </div>
+
+  <!-- step 5 -->
+  <div class="step" style="top:638px">
+    <div class="num">5</div>
+    <div class="body">
+      <h3>Pantau pembaruan</h3>
+      <p>Timestamp transparan, animasi titik baru, dan notifikasi perubahan status.</p>
+    </div>
+    <span class="tag">berkelanjutan</span>
+  </div>
+  <div class="sys" style="top:642px">
+    <span class="method ws">WS</span>
+    <span class="endpoint">/stream</span>
+    <span class="lat">delta &lt; 1 dtk</span>
+    <p class="desc">Push delta tanpa reload. Reconnect exponential backoff; fallback polling 15 dtk.</p>
+  </div>
+
+  <div class="loop-label">ulangi pemantauan · 15 mnt</div>
+
+  <div class="note">
+    <span><i class="dot"></i>Maks. <b>3 klik</b> dari peringatan ke aksi</span>
+    <span><i class="dot"></i>Warna konsisten <b>hijau–oranye–merah</b></span>
+    <span><i class="dot"></i>Keyakinan model <b>selalu terlihat</b></span>
+  </div>
+
+  <div class="foot">Prototipe alur · SIAGA Command Center<br/>Farrel Faiziaulhaq Azmi · 240605110176</div>
+</div>
+</body>
+</html>

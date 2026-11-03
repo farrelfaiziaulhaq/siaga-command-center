@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<title>Laporan Tugas Minggu 9 — Pusat Komando Pascabencana</title>
+<style>
+  @font-face {
+    font-family: "Manrope";
+    src: url("../mockup/assets/fonts/Manrope-latin.woff2") format("woff2");
+    font-weight: 200 800;
+  }
+  :root {
+    --ink: #201417;
+    --body: #3d2c30;
+    --muted: #7c666b;
+    --line: #e8dcdd;
+    --line-soft: #f3eaea;
+    --accent: #7a1f2b;
+    --accent-2: #b42335;
+    --accent-soft: #faf2f3;
+    --red: #b91c1c;
+    --amber: #b45309;
+    --green: #047857;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #e9e0e1;
+    font-family: "Manrope", "Segoe UI", sans-serif;
+    color: var(--body);
+    font-size: 9.6pt;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  p { margin: 0 0 3.2mm; }
+  strong { color: var(--ink); font-weight: 700; }
+  em { font-style: normal; color: var(--accent); }
+  ul { margin: 0 0 3mm; padding-left: 4.2mm; }
+  li { margin-bottom: 1.4mm; }
+  ul.tight li { margin-bottom: 0.8mm; }
+
+  .page {
+    position: relative;
+    width: 210mm; height: 297mm;
+    padding: 17mm 18mm 15mm;
+    background: #fff;
+    overflow: hidden;
+    margin: 0 auto 8mm;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, .12);
+  }
+  .phead {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 7mm; padding-bottom: 2.4mm;
+    border-bottom: 1px solid var(--line);
+    font-size: 7pt; font-weight: 700; letter-spacing: .13em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 8mm;
+  }
+  .phead .brandline { display: flex; align-items: center; gap: 2.2mm; color: var(--accent); }
+  .phead .brandline i {
+    width: 4.6mm; height: 4.6mm; border-radius: 1.2mm;
+    background: linear-gradient(150deg, #7a1f2b, #4c101a);
+    display: inline-block;
+  }
+  .phead .right { color: #9a8286; letter-spacing: .08em; font-weight: 600; }
+  .pfoot {
+    position: absolute; left: 18mm; right: 18mm; bottom: 8mm;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 7pt; color: #9a8286; letter-spacing: .04em;
+    border-top: 1px solid var(--line-soft); padding-top: 2.4mm;
+  }
+  .pfoot .num { font-weight: 800; color: var(--ink); font-size: 8pt; }
+
+  h2 {
+    margin: 0 0 3.4mm;
+    font-size: 20pt; line-height: 1.12; letter-spacing: -.035em;
+    color: var(--ink); font-weight: 800;
+  }
+  h2 .num { color: var(--accent); font-weight: 800; }
+  h3 {
+    margin: 5.2mm 0 2mm;
+    font-size: 11.2pt; line-height: 1.25; letter-spacing: -.015em;
+    color: var(--ink); font-weight: 800;
+  }
+  h4 {
+    margin: 0 0 1mm; font-size: 9.2pt; font-weight: 800; color: var(--ink);
+  }
+  .kicker {
+    font-size: 7.4pt; font-weight: 800; letter-spacing: .19em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 2mm;
+  }
+  .lead { font-size: 10.8pt; line-height: 1.55; color: #1b2c40; margin-bottom: 4mm; }
+  .small { font-size: 8.2pt; color: var(--muted); line-height: 1.55; }
+  .tiny { font-size: 7.2pt; color: #8f7a7e; line-height: 1.5; }
+
+  .figure { margin: 0 0 3mm; }
+  .figure img {
+    width: 100%; display: block; border-radius: 2mm;
+    border: 1px solid #e6dadb;
+  }
+  .figure.dark img { border-color: #3a2026; }
+  .figcap {
+    display: flex; justify-content: space-between; gap: 4mm;
+    font-size: 7.2pt; color: var(--muted); margin-top: 1.6mm; line-height: 1.45;
+  }
+  .figcap b { color: var(--ink); font-weight: 700; }
+
+  .tbl { width: 100%; border-collapse: collapse; margin: 1mm 0 3.5mm; font-size: 8.1pt; line-height: 1.45; }
+  .tbl th {
+    text-align: left; font-weight: 800; font-size: 7pt; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--muted);
+    background: #faf4f4; border-bottom: 1px solid #e4d2d4;
+    padding: 2mm 2.2mm; vertical-align: bottom;
+  }
+  .tbl td { padding: 2mm 2.2mm; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  .tbl tr:last-child td { border-bottom: 0; }
+  .tbl td b { color: var(--ink); font-weight: 700; }
+  .tbl .c { text-align: center; }
+
+  .cols { display: grid; gap: 5mm; }
+  .cols.two { grid-template-columns: 1fr 1fr; }
+  .cols.three { grid-template-columns: repeat(3, 1fr); }
+  .cols.side { grid-template-columns: 1.35fr 1fr; }
+
+  .callout {
+    background: var(--accent-soft);
+    border-left: 2.4px solid var(--accent);
+    border-radius: 0 2mm 2mm 0;
+    padding: 3mm 4mm 2.6mm;
+    margin: 2mm 0 4mm;
+    font-size: 8.8pt;
+    line-height: 1.55;
+  }
+  .callout b { color: #551521; }
+  .callout.warn { background: #fdf6ec; border-color: #b45309; }
+  .callout.warn b { color: #7c3d06; }
+
+  .quote {
+    margin: 3mm 0 4mm; padding: 4mm 5mm;
+    border-left: 2.4px solid var(--accent);
+    background: #fbf6f6;
+    font-size: 12.4pt; line-height: 1.42; letter-spacing: -.02em;
+    color: var(--ink); font-weight: 600;
+  }
+  .quote span { display: block; margin-top: 1.6mm; font-size: 7.4pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3mm; margin: 2mm 0 4mm; }
+  .stat {
+    border: 1px solid var(--line); border-radius: 2.4mm;
+    padding: 3mm 3.2mm 2.6mm; background: #fdf9f9;
+  }
+  .stat b { display: block; font-size: 19pt; line-height: 1; font-weight: 800; letter-spacing: -.04em; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .stat b small { font-size: 8pt; color: var(--muted); font-weight: 700; margin-left: 1mm; }
+  .stat span { display: block; margin-top: 1.6mm; font-size: 7.4pt; color: var(--muted); line-height: 1.35; }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3mm; }
+  .card {
+    border: 1px solid var(--line); border-radius: 2.4mm;
+    padding: 3.4mm 3.6mm; background: #fff;
+  }
+  .card .ic {
+    width: 7mm; height: 7mm; border-radius: 2mm;
+    display: grid; place-items: center;
+    background: #f8ecee; color: var(--accent);
+    font-size: 9pt; font-weight: 800; margin-bottom: 2.4mm;
+  }
+  .card h4 { margin-bottom: 1.2mm; }
+  .card p { font-size: 8.1pt; line-height: 1.5; margin: 0; color: var(--muted); }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 1mm;
+    padding: .7mm 1.8mm; border-radius: 1.2mm;
+    font-size: 6.6pt; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    background: #f7efef; color: #6f4c52; border: 1px solid #ead9db;
+  }
+  .tag.red { background: #fef2f2; color: var(--red); border-color: #fecaca; }
+  .tag.amber { background: #fffbeb; color: var(--amber); border-color: #fde68a; }
+  .tag.green { background: #ecfdf5; color: var(--green); border-color: #bbf7d0; }
+
+  .toc { margin-top: 3mm; }
+  .toc .row {
+    display: flex; align-items: baseline; gap: 2mm;
+    padding: 2.1mm 0; border-bottom: 1px dotted #e4d3d5; font-size: 9.2pt;
+  }
+  .toc .row .t { color: var(--ink); font-weight: 600; }
+  .toc .row .dots { flex: 1; border-bottom: 1px dotted #ddc6c9; transform: translateY(-1mm); }
+  .toc .row .p { color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .toc .row.sub { padding-left: 5mm; font-size: 8.6pt; color: var(--muted); }
+  .toc .row.sub .t { font-weight: 500; color: #4e637a; }
+
+  .swatches { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2mm; margin: 2mm 0 4mm; }
+  .sw { border: 1px solid var(--line); border-radius: 2mm; overflow: hidden; }
+  .sw .chip { height: 13mm; }
+  .sw .info { padding: 1.6mm 2mm 1.8mm; background: #fff; }
+  .sw b { display: block; font-size: 7.6pt; font-weight: 800; color: var(--ink); }
+  .sw span { display: block; font-size: 6.6pt; color: var(--muted); font-family: Consolas, monospace; margin-top: .4mm; }
+  .sw em { display: block; font-style: normal; font-size: 6.3pt; color: #9a8286; margin-top: .6mm; }
+
+  .code {
+    background: #1a0e11; color: #e8d9db;
+    border-radius: 2.2mm; padding: 3.2mm 3.6mm;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 7.2pt; line-height: 1.62;
+    white-space: pre; overflow: hidden;
+    border: 1px solid #3a2026;
+  }
+  .code .k { color: #f0a6ad; }
+  .code .s { color: #f2c6cb; }
+  .code .n { color: #fcd34d; }
+  .code .c { color: #806c70; }
+
+  .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm 4mm; }
+  .kv div { border-top: 1px solid var(--line-soft); padding-top: 1.6mm; }
+  .kv span { display: block; font-size: 6.8pt; letter-spacing: .08em; text-transform: uppercase; color: #9a8286; }
+  .kv b { display: block; font-size: 8.4pt; color: var(--ink); margin-top: .6mm; }
+
+  .check { color: var(--green); font-weight: 800; }
+  .dash { color: #a98a8f; }
+
+  /* Repositori */
+  .repo-card {
+    display: grid; grid-template-columns: 1fr 33mm; gap: 6mm;
+    align-items: center;
+    padding: 5.4mm 5.8mm;
+    background: linear-gradient(150deg, #2b1015, #180a0d);
+    border: 1px solid #4a1d24;
+    border-radius: 3mm;
+    color: #f4e8ea;
+    margin: 2mm 0 5mm;
+  }
+  .repo-label { font-size: 6.8pt; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #e6a7ae; }
+  .repo-url {
+    display: block; margin-top: 1.8mm;
+    font-size: 12.6pt; line-height: 1.3; font-weight: 700; letter-spacing: -.02em;
+    color: #f6c9ce; text-decoration: none; word-break: break-word;
+  }
+  .repo-url:hover { text-decoration: underline; }
+  .repo-card p { margin: 2mm 0 0; font-size: 8pt; line-height: 1.5; color: #c9a6ab; }
+  .repo-tags { display: flex; gap: 1.6mm; flex-wrap: wrap; margin-top: 2.6mm; }
+  .repo-tags span {
+    font-size: 6.2pt; font-weight: 700; letter-spacing: .05em;
+    color: #e6b7bc; border: 1px solid #50242b; border-radius: 1.2mm;
+    padding: .8mm 1.6mm; background: rgba(255,255,255,.025);
+  }
+  .qr-box { background: #fff; padding: 2.2mm; border-radius: 2.4mm; }
+  .qr-box img { width: 100%; display: block; }
+  .qr-cap { text-align: center; font-size: 6.2pt; color: #c9a6ab; margin-top: 1.4mm; letter-spacing: .04em; }
+
+  .link-box {
+    border: 1px solid var(--line); background: #fdf8f8;
+    border-radius: 2.2mm; padding: 2.8mm 3.2mm;
+  }
+  .link-box .label { font-size: 6.5pt; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; color: #9a8286; }
+  .link-box a { display: block; margin-top: 1.2mm; color: var(--accent); font-size: 7.6pt; font-weight: 700; text-decoration: none; overflow-wrap: break-word; line-height: 1.4; }
+  .link-box a:hover { text-decoration: underline; }
+
+  /* Cover */
+  .cover {
+    width: 210mm; height: 297mm; margin: 0 auto 8mm;
+    background:
+      radial-gradient(900px 500px at 85% -5%, rgba(180,35,53,.20), transparent 62%),
+      radial-gradient(700px 420px at -5% 100%, rgba(122,31,43,.24), transparent 65%),
+      #0c0709;
+    color: #e9eff9; position: relative; overflow: hidden;
+    box-shadow: 0 8px 30px rgba(15,23,42,.25);
+  }
+  .cover::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(214,148,160,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(214,148,160,.05) 1px, transparent 1px);
+    background-size: 18mm 18mm;
+    mask-image: radial-gradient(80% 70% at 50% 40%, #000, transparent 90%);
+  }
+  .cover-inner { position: relative; z-index: 2; padding: 15mm 17mm 13mm; height: 100%; display: flex; flex-direction: column; }
+  .cover-top { display: flex; align-items: center; justify-content: space-between; }
+  .cover-brand { display: flex; align-items: center; gap: 3mm; }
+  .cover-mark {
+    width: 10mm; height: 10mm; border-radius: 2.6mm; display: grid; place-items: center;
+    background: linear-gradient(160deg, rgba(240,166,173,.20), rgba(240,166,173,.03)), #160b0e;
+    border: 1px solid rgba(240,166,173,.35);
+  }
+  .cover-mark svg { width: 5.6mm; height: 5.6mm; stroke: #f0a6ad; fill: none; stroke-width: 1.8; }
+  .cover-brand b { display: block; font-size: 11pt; letter-spacing: .16em; font-weight: 800; }
+  .cover-brand span { display: block; font-size: 5.8pt; letter-spacing: .2em; color: #8d7378; font-weight: 700; margin-top: .6mm; }
+  .cover-meta { text-align: right; font-size: 6.8pt; color: #8d7378; line-height: 1.6; letter-spacing: .04em; }
+  .cover-kicker { margin-top: 17mm; font-size: 7.2pt; letter-spacing: .22em; font-weight: 800; color: #f0a6ad; text-transform: uppercase; }
+  .cover h1 {
+    margin: 3mm 0 0; font-size: 33pt; line-height: 1.02; letter-spacing: -.045em;
+    font-weight: 800; color: #f7ecee; max-width: 160mm;
+  }
+  .cover h1 span { color: #f0a6ad; }
+  .cover-sub { margin: 4mm 0 0; font-size: 10.4pt; line-height: 1.5; color: #bda3a8; max-width: 138mm; }
+  .cover-tags { display: flex; gap: 2mm; margin-top: 4mm; flex-wrap: wrap; }
+  .cover-tag {
+    font-size: 6.4pt; font-weight: 700; letter-spacing: .06em;
+    color: #e2bcc1; border: 1px solid #3a2026; background: rgba(28,14,18,.8);
+    border-radius: 1.4mm; padding: 1.2mm 2mm;
+  }
+  .cover-shot {
+    margin-top: 7mm; border-radius: 3mm; overflow: hidden;
+    border: 1px solid #3a2026;
+    box-shadow: 0 25px 50px -20px rgba(0,0,0,.8);
+    height: 104mm;
+  }
+  .cover-shot img { width: 100%; display: block; }
+  .cover-id {
+    margin-top: auto; display: grid; grid-template-columns: 1.25fr 1fr; gap: 7mm;
+    align-items: end; padding-top: 6mm; border-top: 1px solid rgba(148,176,214,.16);
+  }
+  .cover-id .who { font-size: 8.4pt; line-height: 1.7; color: #bda3a8; }
+  .cover-id .who b { display: block; color: #f2f7fd; font-size: 10.6pt; font-weight: 700; margin-bottom: .6mm; }
+  .cover-id .who span { color: #8d7378; }
+  .cover-id .where { text-align: right; font-size: 6.8pt; color: #8d7378; line-height: 1.7; }
+  .cover-id .where b { color: #e2c4c8; font-weight: 700; }
+
+  /* Pipeline SVG */
+  .pipe { width: 100%; margin: 1mm 0 2mm; }
+
+  @media print {
+    @page { size: A4; margin: 0; }
+    html, body { width: 210mm; background: #fff; }
+    .page, .cover { margin: 0; box-shadow: none; break-after: page; }
+    .page:last-child { break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= COVER ================= -->
+<section class="cover">
+  <div class="cover-inner">
+    <div class="cover-top">
+      <div class="cover-brand">
+        <div class="cover-mark">
+          <svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12h1.4l1.1-3 2 6 1.1-3H17" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div><b>SIAGA</b><span>COMMAND CENTER</span></div>
+      </div>
+      <div class="cover-meta">TUGAS MINGGU 9 · SISTEM INFORMASI<br/>PROGRAM STUDI TEKNIK INFORMATIKA<br/>UIN MAULANA MALIK IBRAHIM MALANG</div>
+    </div>
+
+    <div class="cover-kicker">High-fidelity mockup · UI/UX · Real-time DSS</div>
+    <h1>Pusat Komando<br/><span>Pascabencana</span></h1>
+    <p class="cover-sub">Merancang antarmuka eksekutif yang mengubah data lapangan, klasifikasi kerusakan, dan probabilitas model menjadi keputusan bantuan yang cepat dan terukur.</p>
+    <div class="cover-tags">
+      <span class="cover-tag">GLCM–PCA · 3 KELAS</span>
+      <span class="cover-tag">DSS · WP + TOPSIS</span>
+      <span class="cover-tag">NNBP · 93,81%</span>
+      <span class="cover-tag">DARK MODE</span>
+      <span class="cover-tag">WEB · 1600×1000</span>
+    </div>
+
+    <div class="cover-shot">
+      <img src="../screenshots/01-dashboard-utama.png" alt="Pratinjau dashboard SIAGA Command Center" />
+    </div>
+
+    <div class="cover-id">
+      <div class="who">
+        <b>Farrel Faiziaulhaq Azmi</b>
+        NIM 240605110176 · Kelas G<br/>
+        <span>Mata Kuliah Sistem Informasi · Minggu 9<br/>Program Studi Teknik Informatika</span>
+      </div>
+      <div class="where">
+        <b>3 November 2026</b><br/>
+        Malang, Jawa Timur<br/>
+        Laporan perancangan &amp; purwarupa
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RINGKASAN ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">Ringkasan &amp; daftar isi</div>
+  </div>
+
+  <div class="kicker">Ringkasan</div>
+  <h2>Antarmuka yang mengambil alih beban berpikir</h2>
+  <p class="lead">Tugas Minggu 9 meminta rancangan wireframe/mockup high-fidelity untuk dashboard eksekutif BNPB/BPBD. Saya tidak berhenti pada gambar statis: rancangan diwujudkan sebagai purwarupa web interaktif bernama <strong>SIAGA Command Center</strong>, sehingga hierarki, mode gelap, dan perilaku data langsung bisa diuji di browser pada ukuran layar sebenarnya.</p>
+
+  <p>Ada tiga hal yang harus terlihat tanpa perlu membuka menu apa pun. <strong>Pertama</strong>, peta dengan tiga warna kerusakan sebagai keluaran GLCM–PCA. <strong>Kedua</strong>, daftar prioritas tindakan sebagai keluaran DSS berbasis WP dan TOPSIS. <strong>Ketiga</strong>, metrik langsung serta probabilitas prediksi NNBP sebesar 93,81% yang memberi keyakinan pada keputusan. Ketiganya ditempatkan dalam satu layar, dengan satu panel detail untuk saat eksekutif butuh menelusuri bukti.</p>
+
+  <div class="stats">
+    <div class="stat"><b>13<small>titik</small></b><span>Titik kerusakan aktif pada peta, dengan jumlah per kelas.</span></div>
+    <div class="stat"><b>5<small>area</small></b><span>Peringkat prioritas WP + TOPSIS beserta skor dan status.</span></div>
+    <div class="stat"><b>93,81<small>%</small></b><span>Akurasi model NNBP A2 yang ditampilkan sebagai badge.</span></div>
+    <div class="stat"><b>3<small>warna</small></b><span>Hijau, oranye, merah — konsisten dari peta sampai tabel.</span></div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <h3 style="margin-top:0">Isi laporan</h3>
+      <div class="toc">
+        <div class="row"><span class="t">1. Pendahuluan</span><span class="dots"></span><span class="p">03</span></div>
+        <div class="row"><span class="t">2. Pengguna, kebutuhan, dan prinsip</span><span class="dots"></span><span class="p">04</span></div>
+        <div class="row"><span class="t">3. Alur pengguna</span><span class="dots"></span><span class="p">05</span></div>
+        <div class="row"><span class="t">4. Anatomi &amp; hierarki visual</span><span class="dots"></span><span class="p">06</span></div>
+        <div class="row"><span class="t">5. Mockup high-fidelity</span><span class="dots"></span><span class="p">07</span></div>
+        <div class="row sub"><span class="t">5.1 Panel detail bangunan</span><span class="dots"></span><span class="p">08</span></div>
+        <div class="row sub"><span class="t">5.2 Data langsung &amp; responsivitas</span><span class="dots"></span><span class="p">09</span></div>
+        <div class="row"><span class="t">6. Design system &amp; mode gelap</span><span class="dots"></span><span class="p">10</span></div>
+        <div class="row"><span class="t">7. Aksi, status, dan umpan balik</span><span class="dots"></span><span class="p">11</span></div>
+        <div class="row"><span class="t">8. Integrasi data &amp; backend</span><span class="dots"></span><span class="p">12</span></div>
+        <div class="row"><span class="t">9. Evaluasi &amp; kesimpulan</span><span class="dots"></span><span class="p">13</span></div>
+        <div class="row"><span class="t">Lampiran &amp; referensi</span><span class="dots"></span><span class="p">14</span></div>
+        <div class="row"><span class="t">Lampiran B · Repositori proyek</span><span class="dots"></span><span class="p">15</span></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Cara membaca</h3>
+      <p class="small">Laporan ini mengikuti urutan keputusan perancang: siapa yang dilayani, bagaimana ia bergerak, mengapa elemen disusun demikian, lalu bagaimana data mengalir ke layar. Bagian 5 sampai 8 adalah inti teknis; bagian 2 dan 4 menjelaskan alasan di balik tampilan.</p>
+      <div class="callout" style="margin-top:3mm">
+        <b>Catatan kejujuran.</b> Seluruh angka, nama kelurahan, dan kejadian pada purwarupa adalah data simulasi untuk menguji perilaku antarmuka. Model GLCM–PCA, NNBP, dan DSS tidak dilatih ulang di sini; keluarannya direpresentasikan sesuai materi Minggu 9.
+      </div>
+      <div class="kv">
+        <div><span>Berkas utama</span><b>mockup/index.html</b></div>
+        <div><span>Screenshot</span><b>screenshots/</b></div>
+        <div><span>Resolusi acuan</span><b>1600 × 1000 px</b></div>
+        <div><span>Breakpoint</span><b>1600 / 1366 / 1180 / 820</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pfoot"><span>SIAGA Command Center · Laporan perancangan</span><span class="num">02</span></div>
+</section>
+
+<!-- ================= 1. PENDAHULUAN ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">01 · Pendahuluan</div>
+  </div>
+
+  <div class="kicker">01 · Pendahuluan</div>
+  <h2>Dari tumpukan laporan menjadi satu layar keputusan</h2>
+
+  <p class="lead">Pascabencana bukan hanya soal reruntuhan. Ada gunungan data yang harus dibaca sambil jam terus berjalan: lembar survei, foto bangunan, catatan surveyor, laporan BMKG, dan permintaan bantuan dari lapangan. Materi Minggu 9 menyebutnya sebagai <em>kekacauan data lapangan</em> — masif, terfragmentasi, dan sering subjektif.</p>
+
+  <p>Pada minggu-minggu sebelumnya, rantai pengolahannya sudah dibangun: GLCM–PCA mengubah tekstur kerusakan menjadi tiga kelas, NNBP memprediksi tingkat kerusakan dengan akurasi 93,81%, dan DSS dengan Weighted Product serta TOPSIS memberi peringkat area. Namun keluaran itu masih berupa angka dan label. Tugas saya adalah merancang lapisan terakhir: antarmuka yang membuat seorang kepala BPBD bisa memahami situasi dan memutuskan tindakan dalam hitungan detik, tanpa membaca tabel mentah.</p>
+
+  <div class="quote">Antarmuka bukan hiasan di atas data. Ia adalah tempat matematika berubah menjadi keputusan — dan keputusan itu menyangkut nyawa.
+    <span>Prinsip perancangan</span>
+  </div>
+
+  <h3>1.1 Tujuan</h3>
+  <ul>
+    <li>Merancang dashboard eksekutif yang memuat tiga keluaran inti: peta tiga warna, daftar prioritas, dan metrik real-time beserta probabilitas NNBP.</li>
+    <li>Menyusun alur pengguna dari peringatan sampai tindakan, termasuk titik keputusan dan putaran pemantauan.</li>
+    <li>Menerapkan mode gelap yang nyaman untuk ruang kendali, dengan hierarki visual dan kontras yang dapat dipertanggungjawabkan.</li>
+    <li>Menerjemahkan prinsip integrasi data backend ke dalam perilaku antarmuka: pembaruan tanpa muat ulang, status data, dan jejak audit tindakan.</li>
+  </ul>
+
+  <h3>1.2 Ruang lingkup dan batasan</h3>
+  <p>Purwarupa ini adalah <strong>mockup high-fidelity interaktif</strong>, bukan sistem produksi. Semua data berasal dari berkas simulasi dan tidak terhubung ke basis data BPBD. Peta menggunakan basemap gelap Esri/OpenStreetMap dengan atribusi; koordinat kelurahan disusun untuk skenario, bukan hasil survei aktual. Model tidak dijalankan ulang — probabilitas dan skor merepresentasikan keluaran yang dijelaskan di materi.</p>
+  <p>Saya memilih membangun mockup sebagai HTML, CSS, dan JavaScript, bukan sebagai kanvas Figma. Alasannya praktis: saya ingin menguji tipografi, jarak, kontras, dan animasi pada browser sungguhan, lalu memastikan hasilnya tidak berubah saat dibuka di layar 1600×1000. Seluruh token warna, skala tipe, dan grid 12 kolom tetap terdokumentasi di Bagian 6 sehingga rancangan dapat dipindahkan ke Figma atau Adobe XD bila diperlukan versi statis.</p>
+
+  <div class="callout" style="margin-top:1.5mm; margin-bottom:0">
+    <b>Kompensasi yang saya ambil.</b> Menambah grafik berarti mengurangi ruang peta. Karena itu saya memilih tiga visual utama dan memindahkan sisanya ke panel detail — bukan menumpuk semuanya di layar pertama.
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">03</span></div>
+</section>
+
+<!-- ================= 2. PENGGUNA ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">02 · Pengguna &amp; prinsip</div>
+  </div>
+
+  <div class="kicker">02 · Pengguna &amp; prinsip</div>
+  <h2 style="margin-bottom:2.6mm">Tiga pengguna, satu tujuan: keputusan yang tepat waktu</h2>
+
+  <p class="lead">Dashboard eksekutif bukan berarti hanya untuk satu orang. Di baliknya ada operator yang menjaga data tetap masuk dan surveyor yang mengambil foto di lapangan. Saya memetakan ketiganya agar keputusan desain tidak hanya melayani demo, tetapi alur kerja nyata di pusat kendali.</p>
+
+  <table class="tbl">
+    <thead><tr><th style="width:24%">Peran</th><th style="width:30%">Yang dicari</th><th style="width:24%">Konteks</th><th>Risiko bila gagal</th></tr></thead>
+    <tbody>
+      <tr><td><b>Kepala BPBD / eksekutif</b></td><td>“Di mana yang paling parah, dan apa yang harus saya kirim sekarang?”</td><td>Ruang kendali, layar besar, sering ditekan waktu</td><td>Salah prioritas; bantuan datang terlambat</td></tr>
+      <tr><td><b>Operator Pusdalops</b></td><td>Memastikan data masuk, valid, dan tidak ada area yang terlewat</td><td>Meja operasional, multi-layar, shift panjang</td><td>Data basi dianggap terkini</td></tr>
+      <tr><td><b>Surveyor lapangan</b></td><td>Mengirim laporan cepat dengan bukti foto dan lokasi</td><td>Mobile, sinyal terbatas, tangan sibuk</td><td>Laporan tidak terkirim atau salah koordinat</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.1 Dari kebutuhan ke keputusan desain</h3>
+  <table class="tbl">
+    <thead><tr><th style="width:42%">Kebutuhan</th><th>Respons dalam rancangan</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mengetahui situasi dalam &lt; 10 detik</b></td><td>Empat KPI di kiri atas, alert kritis di bawah header, dan peta langsung terlihat tanpa scroll.</td></tr>
+      <tr><td><b>Memercayai angka model</b></td><td>Akurasi NNBP ditampilkan sebagai KPI dan badge; setiap rekomendasi membawa persentase keyakinan.</td></tr>
+      <tr><td><b>Menghubungkan angka dengan lokasi</b></td><td>Pin peta, baris prioritas, dan panel detail saling terhubung dalam satu state.</td></tr>
+      <tr><td><b>Bertindak, bukan sekadar melihat</b></td><td>Tombol “Tugaskan tim” dan “Eskalasi” berada di akhir alur bukti, bukan tersembunyi di menu.</td></tr>
+      <tr><td><b>Mengetahui kesegaran data</b></td><td>Label “diperbarui x dtk lalu”, jam sinkron, status WebSocket, dan toast saat titik baru masuk.</td></tr>
+      <tr><td><b>Bekerja malam hari tanpa silau</b></td><td>Mode gelap berlapis, aksen sian, dan warna status yang tetap terbaca di lingkungan redup.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>2.2 Tiga prinsip dasar</h3>
+  <div class="cards">
+    <div class="card"><div class="ic">A</div><h4>Kemudahan kognitif</h4><p>Satu layar, satu pertanyaan utama. Detail dipindahkan ke panel geser agar tidak membanjiri pandangan.</p></div>
+    <div class="card"><div class="ic">B</div><h4>Hierarki F-pattern</h4><p>Angka terpenting di kiri atas, peringatan di kanan atas, konteks spasial di tengah, aksi di kanan.</p></div>
+    <div class="card"><div class="ic">C</div><h4>Tindakan terarah</h4><p>Setiap widget berujung pada langkah berikutnya: lihat area, tugaskan tim, atau eskalasi.</p></div>
+  </div>
+
+  <div class="callout" style="margin-top:1mm; padding:2mm 3.6mm">
+    <b>Warna adalah bahasa, bukan dekorasi.</b> Hijau selalu ringan (n &lt; 0), oranye sedang (0 ≤ n &lt; 2), merah berat (n ≥ 2). Ikon dan ukuran pin yang berbeda menjaga kelas tetap terbaca tanpa warna.
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">04</span></div>
+</section>
+
+<!-- ================= 3. USER FLOW ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">03 · Alur pengguna</div>
+  </div>
+
+  <div class="kicker">03 · Alur pengguna</div>
+  <h2>Lima langkah, satu putaran pemantauan</h2>
+  <p class="lead">Alur dirancang untuk dua mode yang berbeda: <strong>mode keputusan</strong> saat ada peringatan kritis, dan <strong>mode pemantauan</strong> saat situasi relatif terkendali. Keduanya memakai layar yang sama; yang berubah adalah seberapa dalam pengguna masuk ke bukti.</p>
+
+  <div class="figure" style="margin-bottom:1.5mm">
+    <img src="../screenshots/05-user-flow.png" alt="Diagram alur pengguna eksekutif" style="width:96%; margin:0 auto" />
+    <div class="figcap"><span><b>Gambar 3.1</b> — Alur pengguna eksekutif dan panggilan sistem yang menyertainya.</span><span>SIAGA · 1400 × 820</span></div>
+  </div>
+
+  <table class="tbl" style="margin-top:2mm">
+    <thead><tr><th style="width:5%">#</th><th style="width:22%">Langkah</th><th style="width:39%">Yang dilakukan pengguna</th><th>Sistem / API</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td><b>Masuk &amp; pilih wilayah</b></td><td>Login SSO, memilih cakupan kota atau kecamatan.</td><td><span class="tag">POST</span> /auth/sso · JWT + scope</td></tr>
+      <tr><td class="c">2</td><td><b>Pindai ringkasan</b></td><td>Membaca empat KPI, bilah peringatan, dan akurasi model.</td><td><span class="tag">GET</span> /dashboard/summary</td></tr>
+      <tr><td class="c">3</td><td><b>Buka prioritas &amp; bukti</b></td><td>Memilih area, melihat peta tiga warna dan detail prediksi.</td><td><span class="tag">GET</span> /priority · /buildings/{id}</td></tr>
+      <tr><td class="c">4</td><td><b>Putuskan &amp; tugaskan</b></td><td>Mengirim tim, mengalokasikan logistik, atau eskalasi.</td><td><span class="tag">POST</span> /assignments · audit</td></tr>
+      <tr><td class="c">5</td><td><b>Pantau pembaruan</b></td><td>Menunggu delta berikutnya; kembali ke ringkasan bila perlu.</td><td><span class="tag">WS</span> /stream · fallback polling</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Aturan tiga klik.</b> Dari bilah “3 area kritis” ke tombol penugasan hanya ada tiga interaksi: buka prioritas, pilih area, kirim tim. Setiap tambahan klik berarti tambahan detik yang tidak dimiliki korban.
+  </div>
+
+  <p class="small" style="margin-bottom:0">Putaran pemantauan kembali ke langkah 2 setiap 15 menit atau setelah WebSocket mengirim delta. Filter dan posisi pengguna tetap terjaga — penting untuk shift panjang di pusat kendali, agar setiap pembaruan tidak memaksa orang memulai dari awal.</p>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">05</span></div>
+</section>
+
+<!-- ================= 4. ANATOMI ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">04 · Anatomi &amp; hierarki</div>
+  </div>
+
+  <div class="kicker">04 · Anatomi &amp; hierarki visual</div>
+  <h2>Lima zona, satu urutan baca</h2>
+  <p class="lead">Saya membagi layar menjadi lima zona yang mengikuti kebiasaan mata membaca dari kiri atas ke kanan bawah. Zona paling besar diberikan kepada peta karena pertanyaan “di mana” selalu muncul sebelum “apa tindakannya”.</p>
+
+  <div class="figure">
+    <img src="../screenshots/06-anatomi.png" alt="Anatomi antarmuka dashboard dengan lima zona informasi" style="width:88%; margin:0 auto" />
+    <div class="figcap"><span><b>Gambar 4.1</b> — Lima zona informasi pada mockup high-fidelity.</span><span>Penomoran mengikuti urutan prioritas, bukan urutan piksel.</span></div>
+  </div>
+
+  <div class="cols three" style="margin-top:1mm">
+    <div>
+      <h4>Kiri atas — “seberapa parah?”</h4>
+      <p class="small">Empat KPI: pengungsi, bangunan terdampak, area kritis, dan akurasi model. Angka besar, satuan kecil, delta di bawah. Ini menjawab pertanyaan pertama tanpa perlu membaca grafik.</p>
+    </div>
+    <div>
+      <h4>Tengah — “di mana?”</h4>
+      <p class="small">Peta menempati sekitar dua pertiga lebar konten. Tiga warna, ukuran pin berbeda, dan jumlah per kelas di legenda. Timestamp menempel pada peta agar kesegaran data tidak terpisah dari konteksnya.</p>
+    </div>
+    <div>
+      <h4>Kanan — “lalu apa?”</h4>
+      <p class="small">Daftar prioritas dan kartu keyakinan model. Di sini angka berubah menjadi tindakan: skor, status, rekomendasi, dan tombol penugasan.</p>
+    </div>
+  </div>
+
+  <h3>4.1 Grid dan ritme</h3>
+  <p>Konten memakai grid 12 kolom dengan gutter 24 px pada kanvas 1600 px. Rel navigasi 66 px, kolom kiri fleksibel, panel kanan 372 px agar tabel prioritas tidak “melompat” saat angka berubah. Jarak mengikuti kelipatan 4 px; kartu memakai radius 16 px dan garis 1 px.</p>
+
+  <div class="cols side" style="margin-top:2mm">
+    <div class="callout" style="margin:0">
+      <b>F-pattern yang disengaja.</b> Baris KPI membentuk lengan atas; peta dan tabel prioritas membentuk lengan bawah.
+    </div>
+    <div class="kv">
+      <div><span>Kanvas</span><b>1600 × 1000 px</b></div>
+      <div><span>Grid</span><b>12 kolom · 24 px</b></div>
+      <div><span>Panel kanan</span><b>372 px</b></div>
+      <div><span>Radius kartu</span><b>16 px</b></div>
+    </div>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">06</span></div>
+</section>
+
+<!-- ================= 5. MOCKUP ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">05 · Mockup high-fidelity</div>
+  </div>
+
+  <div class="kicker">05 · Mockup high-fidelity</div>
+  <h2>Satu layar untuk tiga pertanyaan</h2>
+  <p class="lead">Tampilan utama menjawab tiga pertanyaan eksekutif secara berurutan: <strong>apa yang terjadi</strong> (KPI dan alert), <strong>di mana</strong> (peta tiga warna), dan <strong>apa yang harus dilakukan</strong> (prioritas serta rekomendasi). Semua berada di atas lipatan layar 1600×1000 tanpa scroll.</p>
+
+  <div class="figure dark">
+    <img src="../screenshots/01-dashboard-utama.png" alt="Mockup dashboard utama SIAGA Command Center" />
+    <div class="figcap"><span><b>Gambar 5.1</b> — Tampilan utama pada 1600 × 1000 px, mode gelap.</span><span>Tangkapan layar 2× · data simulasi</span></div>
+  </div>
+
+  <div class="cols two" style="margin-top:0">
+    <div>
+      <h4>Yang dibaca dalam lima detik pertama</h4>
+      <ul class="tight small">
+        <li><b>4.286 pengungsi</b> dan <b>1.284 bangunan</b> terdampak, dengan komposisi ringan/sedang/berat.</li>
+        <li><b>12 area kritis</b>, tiga di antaranya baru; bilah merah menegaskan tenggat enam jam.</li>
+        <li><b>Peta</b> dengan 13 titik aktif, lima berstatus berat; legenda menghitung tiap kelas.</li>
+        <li><b>Peringkat #1</b> Penanggungan dengan skor 9,85 dan status “Utama”.</li>
+        <li><b>93,8% keyakinan</b> pada rekomendasi evakuasi Zona A.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Keputusan komposisi</h4>
+      <p class="small">Peta sengaja tidak diberi heatmap penuh. Titik dengan halo tipis sudah cukup menunjukkan konsentrasi, sementara pin tetap bisa diklik satu per satu. Tabel prioritas ditempatkan di kanan agar sejajar dengan peta: mata dapat berpindah dari lokasi ke skor tanpa memutar arah baca. Warna aksen sian dipakai untuk interaksi, bukan status, sehingga tidak bersaing dengan merah-oranye-hijau.</p>
+      <div class="callout" style="margin-top:2mm; padding:2.4mm 3.4mm">
+        <b>Tidak ada donat “kerusakan” di layar utama.</b> Chart tren dan umpan aktivitas sudah cukup; menambah diagram ketiga akan mengurangi ruang peta dan memecah perhatian.
+      </div>
+    </div>
+  </div>
+
+  <div class="stats" style="margin-top:2mm; margin-bottom:0">
+    <div class="stat"><b>3<small>warna</small></b><span>Konsisten di pin, legenda, tabel, dan panel detail.</span></div>
+    <div class="stat"><b>13<small>pin</small></b><span>Ukuran berbeda: berat, sedang, ringan.</span></div>
+    <div class="stat"><b>5<small>baris</small></b><span>Prioritas teratas; daftar lengkap lewat tautan.</span></div>
+    <div class="stat"><b>1<small>aksi</small></b><span>Rekomendasi dengan tombol kirim langsung.</span></div>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">07</span></div>
+</section>
+
+<!-- ================= 5.1 DRAWER ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">05.1 · Panel detail</div>
+  </div>
+
+  <div class="kicker">05.1 · Panel detail bangunan</div>
+  <h2>Bukti di balik satu rekomendasi</h2>
+  <p class="lead">Eksekutif tidak selalu perlu detail. Tetapi ketika keputusan menyangkut pengiriman tim dan anggaran, ia harus bisa memeriksa dasar penilaian tanpa kehilangan konteks layar. Panel geser menyediakan jalur itu: satu klik pada pin atau baris prioritas membuka bukti, sementara peta tetap terlihat di belakang.</p>
+
+  <div class="figure dark">
+    <img src="../screenshots/02-detail-bangunan.png" alt="Panel detail bangunan dengan prediksi NNBP dan komponen DSS" />
+    <div class="figcap"><span><b>Gambar 5.2</b> — Panel detail B-182: probabilitas, komponen DSS, metadata, riwayat, dan aksi.</span><span>Overlay + drawer 438 px</span></div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <h4>Urutan informasi</h4>
+      <p class="small"><b>1. Status dan skor</b> — “Rusak Berat · 9,85” langsung terlihat. <b>2. Dampak</b> — 128 KK, 12 unit, keyakinan 93,8%. <b>3. Prediksi</b> — tiga probabilitas (2,1% / 4,1% / 93,8%) agar model tidak tampak seperti kotak hitam. <b>4. Komponen DSS</b> — lima kriteria dengan bobot X1–X5. <b>5. Metadata</b> — surveyor, waktu, sumber, metode validasi. <b>6. Riwayat</b> — perjalanan data dari laporan sampai peringkat. <b>7. Aksi</b> — tugaskan tim atau eskalasi.</p>
+    </div>
+    <div>
+      <h4>Mengapa probabilitas ditampilkan</h4>
+      <p class="small">Angka 93,81% pada kartu utama adalah akurasi agregat. Di panel detail, pengguna melihat distribusi per bangunan: 93,8% berat, bukan 100%. Ini mengurangi risiko overpercaya pada model dan memberi ruang bagi penilaian manusia. Klasifikasi tetap dapat dieskalasi bila ada keraguan.</p>
+      <div class="callout" style="margin-top:2mm; padding:2.4mm 3.4mm">
+        <b>Rantai bukti, bukan angka tunggal.</b> Setiap rekomendasi dapat ditelusuri sampai nama surveyor dan jam laporan — syarat penting untuk audit pascabencana.
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warn" style="margin-bottom:0">
+    <b>Batas yang disengaja.</b> Panel tidak menampilkan seluruh 24 area atau grafik tambahan. Ia adalah “lembar bukti” satu bangunan; navigasi antarbangunan dilakukan lewat peta dan tabel di belakangnya, sehingga pengguna tidak tersesat dalam hirarki menu baru.
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">08</span></div>
+</section>
+
+<!-- ================= 5.2 REAL-TIME ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">05.2 · Data langsung</div>
+  </div>
+
+  <div class="kicker">05.2 · Data langsung &amp; responsivitas</div>
+  <h2>Layar yang bergerak tanpa mengganggu</h2>
+  <p class="lead">Data pascabencana tidak berhenti saat dashboard dibuka. Purwarupa menyimulasikan laporan masuk setiap beberapa detik: pin baru muncul dengan denyut halus, KPI bertambah, umpan aktivitas diperbarui, dan timestamp kembali ke “baru saja”. Tidak ada muat ulang halaman.</p>
+
+  <div class="figure dark">
+    <img src="../screenshots/03-data-masuk.png" alt="Titik baru masuk ke peta dan umpan aktivitas" />
+    <div class="figcap"><span><b>Gambar 5.3</b> — Titik B-251 masuk: pin berdenyut, KPI naik, umpan bertambah, toast muncul.</span><span>Simulasi interval 11 detik</span></div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <h4>Aturan pembaruan</h4>
+      <ul class="tight small">
+        <li><b>Hanya titik baru yang berdenyut</b>, maksimal 2,4 detik; titik lama tetap tenang.</li>
+        <li><b>Angka berubah tanpa animasi berlebihan</b> agar tidak menarik perhatian dari peta.</li>
+        <li><b>Toast singkat</b> mengonfirmasi asal data dan ID, bukan sekadar “berhasil”.</li>
+        <li><b>Timestamp relatif</b> diperbarui tiap detik; setelah 60 detik berubah ke menit.</li>
+        <li><b>Jeda</b> tersedia lewat tombol “Langsung” untuk situasi ketika layar perlu dibekukan saat rapat.</li>
+      </ul>
+      <div class="callout" style="margin:2mm 0 0; padding:2.4mm 3.2mm">
+        <b>Yang sengaja tidak dilakukan.</b> Tidak ada modal yang menutup peta, tidak ada perubahan urutan prioritas tanpa alasan, dan tidak ada animasi pada setiap angka.
+      </div>
+    </div>
+    <div>
+      <h4>Kompak di layar kecil</h4>
+      <p class="small">Pada 1366×768, tinggi KPI, peta, dan panel kanan dikurangi, blok kesiapan sumber daya disembunyikan, dan status bar dihilangkan. Informasi inti tetap ada: KPI, peta, lima prioritas, dan keyakinan model. Di bawah 1180 px, panel kanan turun ke bawah peta; di bawah 820 px, rel navigasi menghilang dan kontrol atas menumpuk.</p>
+      <div class="figure" style="margin-top:2mm; margin-bottom:0">
+        <img src="../screenshots/04-laptop-1366.png" alt="Tampilan dashboard pada laptop 1366x768" style="border-color:#203247" />
+        <div class="figcap"><span><b>Gambar 5.4</b> — Mode kompak 1366 × 768.</span><span>Tanpa scroll vertikal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">09</span></div>
+</section>
+
+<!-- ================= 6. DESIGN SYSTEM ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">06 · Design system</div>
+  </div>
+
+  <div class="kicker">06 · Design system &amp; mode gelap</div>
+  <h2>Token kecil, konsistensi besar</h2>
+  <p class="lead">Mode gelap sering gagal karena semua permukaan dibuat hitam dan semua teks dibuat putih. Saya memakai tiga tingkat permukaan, garis tipis, dan aksen sian untuk interaksi. Warna status tetap jenuh supaya terbaca dari jarak dua meter, tetapi latarnya diredam agar tidak menyilaukan.</p>
+
+  <div class="swatches">
+    <div class="sw"><div class="chip" style="background:#060a12"></div><div class="info"><b>Kanvas</b><span>#060A12</span><em>Latar aplikasi</em></div></div>
+    <div class="sw"><div class="chip" style="background:#0c1422"></div><div class="info"><b>Permukaan</b><span>#0C1422</span><em>Kartu &amp; panel</em></div></div>
+    <div class="sw"><div class="chip" style="background:#131f31"></div><div class="info"><b>Elevasi</b><span>#131F31</span><em>Kontrol aktif</em></div></div>
+    <div class="sw"><div class="chip" style="background:#38bdf8"></div><div class="info"><b>Aksen</b><span>#38BDF8</span><em>Interaksi &amp; fokus</em></div></div>
+    <div class="sw"><div class="chip" style="background:#e9eff9"></div><div class="info"><b>Teks</b><span>#E9EFF9</span><em>Teks utama</em></div></div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <h3 style="margin-top:1mm">6.1 Warna fungsional</h3>
+      <table class="tbl" style="margin-top:0">
+        <thead><tr><th>Token</th><th>Nilai</th><th>Arti</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ringan</b></td><td><span style="color:#15803d;font-weight:700">#22C55E</span></td><td>n &lt; 0 · tidak mendesak</td></tr>
+          <tr><td><b>Sedang</b></td><td><span style="color:#b45309;font-weight:700">#F59E0B</span></td><td>0 ≤ n &lt; 2 · perlu asesmen</td></tr>
+          <tr><td><b>Berat</b></td><td><span style="color:#b91c1c;font-weight:700">#EF4444</span></td><td>n ≥ 2 · prioritas utama</td></tr>
+          <tr><td><b>Muted</b></td><td>#8497B2</td><td>Teks sekunder</td></tr>
+          <tr><td><b>Dim</b></td><td>#7286A0</td><td>Label &amp; metadata</td></tr>
+        </tbody>
+      </table>
+      <p class="small" style="margin-bottom:1mm">Merah dipakai untuk isian pin, ikon, dan angka besar. Untuk teks kecil, saya memakai versi lebih terang (#FCA5A5) agar tetap melewati ambang kontras. Ukuran pin juga berbeda — berat 28 px, sedang 24 px, ringan 20 px — sehingga kelas masih terbaca tanpa warna.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:1mm">6.2 Tipografi &amp; bentuk</h3>
+      <div class="kv" style="margin-bottom:3mm">
+        <div><span>Keluarga</span><b>Manrope 400–800</b></div>
+        <div><span>Angka</span><b>tabular-nums</b></div>
+        <div><span>Judul halaman</span><b>24 px / 700</b></div>
+        <div><span>Judul kartu</span><b>13 px / 700</b></div>
+        <div><span>Tubuh</span><b>10–11 px / 400</b></div>
+        <div><span>Label</span><b>9–10 px / 700</b></div>
+        <div><span>Radius</span><b>10 / 16 px</b></div>
+        <div><span>Garis</span><b>1 px #1B2940</b></div>
+      </div>
+      <div class="callout" style="margin:0; padding:2.6mm 3.4mm">
+        <b>Kontras terukur (WCAG 2.1).</b> Teks utama 15,96:1; teks sekunder 6,19:1; label 4,95:1; aksen sian 8,61:1; merah pada permukaan 4,90:1. Semua teks normal berada di atas ambang AA 4,5:1.
+      </div>
+    </div>
+  </div>
+
+  <h3>6.3 Mengapa mode gelap, bukan sekadar tren</h3>
+  <div class="cols three">
+    <div class="card"><div class="ic">☾</div><h4>Ruang kendali</h4><p>Pusat komando sering aktif malam hari. Latar gelap mengurangi silau dan menjaga adaptasi mata terhadap monitor lain di ruangan.</p></div>
+    <div class="card"><div class="ic">◐</div><h4>Fokus pada data</h4><p>Permukaan gelap membuat pin berwarna dan angka putih menonjol. Warna status tidak bersaing dengan latar terang.</p></div>
+    <div class="card"><div class="ic">◈</div><h4>Konsistensi merek</h4><p>Aksen sian dipakai untuk navigasi dan fokus; merah-oranye-hijau khusus status. Tidak ada warna yang punya dua makna.</p></div>
+  </div>
+
+  <h3>6.4 Aksesibilitas</h3>
+  <div class="cols two">
+    <ul class="tight small" style="margin-bottom:0">
+      <li><b>Kontras.</b> Teks normal ≥ 4,5:1; garis fokus dan ikon status ≥ 3:1.</li>
+      <li><b>Bukan warna saja.</b> Kelas kerusakan dibedakan lewat ikon, ukuran, dan label teks.</li>
+    </ul>
+    <ul class="tight small" style="margin-bottom:0">
+      <li><b>Keyboard.</b> Fokus terlihat, Esc menutup panel, Ctrl+K membuka pencarian.</li>
+      <li><b>Gerak.</b> Semua animasi berhenti bila <i>prefers-reduced-motion</i> aktif.</li>
+    </ul>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">10</span></div>
+</section>
+
+<!-- ================= 7. AKSI & STATE ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">07 · Aksi &amp; status</div>
+  </div>
+
+  <div class="kicker">07 · Aksi, status, dan umpan balik</div>
+  <h2>Setiap widget punya langkah berikutnya</h2>
+  <p class="lead">Prinsip <em>actionability</em> dari materi Minggu 9 saya terjemahkan secara literal: tidak ada informasi yang berhenti pada dirinya sendiri. Angka menunjukkan lokasi, lokasi membuka bukti, bukti berujung pada tombol yang jelas, dan tombol meninggalkan jejak.</p>
+
+  <div class="cols three" style="margin-bottom:2mm">
+    <div class="card"><div class="ic">↗</div><h4>Satu aksi utama</h4><p>Pada panel detail, “Tugaskan tim” adalah tombol primer; “Eskalasi” sekunder. Tidak ada dua tombol yang bersaing dengan bobot sama.</p></div>
+    <div class="card"><div class="ic">✓</div><h4>Konfirmasi yang spesifik</h4><p>Toast menyebut objek dan tujuan: “Rekomendasi evakuasi Zona A dikirim ke tim lapangan”, bukan “Berhasil”.</p></div>
+    <div class="card"><div class="ic">⌁</div><h4>Jejak audit</h4><p>Setiap penugasan menulis waktu, aktor, area, dan rekomendasi ke log — terlihat pada riwayat validasi di panel.</p></div>
+  </div>
+
+  <h3>7.1 Perilaku saat data tidak ideal</h3>
+  <table class="tbl">
+    <thead><tr><th style="width:17%">Kondisi</th><th style="width:37%">Yang ditampilkan</th><th>Alasan</th></tr></thead>
+    <tbody>
+      <tr><td><b>Memuat awal</b></td><td>Skeleton pada kartu KPI dan peta; teks “Menghubungkan ke pusat data…”.</td><td>Menjaga tata letak agar tidak melompat saat data tiba.</td></tr>
+      <tr><td><b>Belum ada laporan</b></td><td>Peta kosong dengan pesan “Belum ada laporan terverifikasi” dan tombol “Muat ulang”.</td><td>Kosong bukan berarti aman; pesan harus eksplisit.</td></tr>
+      <tr><td><b>Gagal API</b></td><td>Kartu bertanda “Data tertunda”, tombol coba lagi, dan status kuning di bilah atas.</td><td>Jangan menampilkan angka lama seolah-olah baru.</td></tr>
+      <tr><td><b>Data basi (&gt; 60 dtk)</b></td><td>Timestamp berubah kuning dan berbunyi “Terakhir diperbarui 2 mnt lalu”.</td><td>Transparansi waktu adalah bagian dari kepercayaan.</td></tr>
+      <tr><td><b>Koneksi putus</b></td><td>Bilah “Mode luring · data terakhir 14:28 WIB”; WebSocket mencoba ulang.</td><td>Petugas tetap bisa membaca situasi terakhir.</td></tr>
+      <tr><td><b>Tidak berwenang</b></td><td>Tombol penugasan nonaktif dengan penjelasan peran yang dibutuhkan.</td><td>Mencegah aksi yang tidak sah, bukan sekadar menyembunyikan tombol.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>7.2 Gerak dan mikrointeraksi</h3>
+  <div class="cols two">
+    <div>
+      <p class="small">Durasi transisi 180–300 ms dengan kurva <em>ease-out</em>. Denyut hanya diberikan pada pin baru dan indikator “langsung”; elemen lain diam. Panel detail masuk dari kanan agar arahnya konsisten dengan metafora “menarik lembar bukti”. Semua animasi dinonaktifkan saat pengguna mengaktifkan <em>prefers-reduced-motion</em>.</p>
+      <p class="small">Pada peta, hover menampilkan tooltip berisi nama area, status, dan skor. Klik memilih pin dan menyorot baris tabel yang sesuai; keduanya berbagi state yang sama. Ini mengurangi beban mengingat: pengguna tidak perlu mencari ulang area di tabel setelah melihat peta.</p>
+    </div>
+    <div>
+      <div class="callout" style="margin:0">
+        <b>Microcopy yang dipakai.</b><br/>
+        “3 area berstatus kritis memerlukan tindakan dalam 6 jam.”<br/>
+        “Titik baru diterima · B-251 · Klojen.”<br/>
+        “Terakhir diperbarui 2 dtk lalu.”<br/>
+        “Diperbarui otomatis · bobot X1–X5.”<br/>
+        “Data simulasi untuk keperluan purwarupa.”
+      </div>
+      <p class="small" style="margin-top:3mm">Kalimat-kalimat itu pendek, menyebut angka, dan tidak memakai istilah teknis yang tidak perlu. Eksekutif tidak perlu tahu nama tabel atau endpoint; operator tetap bisa menemukannya di status bar dan dokumentasi.</p>
+    </div>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">11</span></div>
+</section>
+
+<!-- ================= 8. BACKEND ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">08 · Integrasi backend</div>
+  </div>
+
+  <div class="kicker">08 · Integrasi data &amp; backend</div>
+  <h2>Antarmuka terpisah, data tetap satu alur</h2>
+  <p class="lead">Materi Minggu 9 menekankan API RESTful sebagai jembatan antara aplikasi surveyor dan dashboard, serta WebSocket/AJAX agar layar diperbarui tanpa <em>page reload</em>. Rancangan ini mengikuti pola tersebut: frontend tidak mengetahui cara menghitung GLCM atau TOPSIS; ia hanya meminta ringkasan, daftar prioritas, dan detail bangunan.</p>
+
+  <svg class="pipe" viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg" aria-label="Diagram pipeline data">
+    <defs>
+      <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#a98a8f"/></marker>
+      <marker id="arT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10Z" fill="#7a1f2b"/></marker>
+    </defs>
+    <rect x="10" y="38" width="148" height="88" rx="10" fill="#fbf5f5" stroke="#e3cdd0"/>
+    <text x="84" y="70" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#201417">Mobile Surveyor</text>
+    <text x="84" y="89" text-anchor="middle" font-family="Manrope" font-size="11" fill="#7c666b">foto + 5 kriteria</text>
+    <text x="84" y="107" text-anchor="middle" font-family="Manrope" font-size="10" fill="#7a1f2b">JSON payload</text>
+
+    <rect x="200" y="30" width="160" height="104" rx="10" fill="#fff" stroke="#e8dcdd"/>
+    <text x="280" y="62" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#201417">REST API</text>
+    <text x="280" y="81" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#7c666b">validasi · JWT · rate limit</text>
+    <text x="280" y="100" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#7c666b">idempotency key</text>
+
+    <rect x="404" y="18" width="190" height="128" rx="10" fill="#1a0e11" stroke="#3a2026"/>
+    <text x="499" y="48" text-anchor="middle" font-family="Manrope" font-size="13" font-weight="700" fill="#f5e9eb">Model Service</text>
+    <text x="499" y="69" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#f0a6ad">GLCM–PCA · 3 kelas</text>
+    <text x="499" y="87" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#f0a6ad">NNBP A2 · 93,81%</text>
+    <text x="499" y="105" text-anchor="middle" font-family="Manrope" font-size="10" fill="#8f7a7e">40–38–36–34</text>
+
+    <rect x="632" y="30" width="164" height="104" rx="10" fill="#fff" stroke="#e8dcdd"/>
+    <text x="714" y="62" text-anchor="middle" font-family="Manrope" font-size="14" font-weight="700" fill="#201417">DSS Engine</text>
+    <text x="714" y="81" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#7c666b">Weighted Product</text>
+    <text x="714" y="99" text-anchor="middle" font-family="Manrope" font-size="10.5" fill="#7c666b">+ TOPSIS ranking</text>
+
+    <rect x="836" y="18" width="154" height="62" rx="10" fill="#fbf5f5" stroke="#e3cdd0"/>
+    <text x="913" y="44" text-anchor="middle" font-family="Manrope" font-size="12" font-weight="700" fill="#201417">WebSocket</text>
+    <text x="913" y="62" text-anchor="middle" font-family="Manrope" font-size="10" fill="#7a1f2b">push delta &lt; 1 dtk</text>
+    <rect x="836" y="90" width="154" height="60" rx="10" fill="#1a0e11" stroke="#3a2026"/>
+    <text x="913" y="116" text-anchor="middle" font-family="Manrope" font-size="12" font-weight="700" fill="#f5e9eb">Dashboard</text>
+    <text x="913" y="134" text-anchor="middle" font-family="Manrope" font-size="10" fill="#8f7a7e">render tanpa reload</text>
+
+    <path d="M158 82 L196 82" stroke="#a98a8f" stroke-width="1.4" marker-end="url(#ar)"/>
+    <path d="M360 82 L400 82" stroke="#a98a8f" stroke-width="1.4" marker-end="url(#ar)"/>
+    <path d="M594 82 L628 82" stroke="#a98a8f" stroke-width="1.4" marker-end="url(#ar)"/>
+    <path d="M796 82 L816 82 L816 49 L832 49" stroke="#7a1f2b" stroke-width="1.4" fill="none" marker-end="url(#arT)"/>
+    <path d="M913 80 L913 86" stroke="#a98a8f" stroke-width="1.4" marker-end="url(#ar)"/>
+
+    <rect x="200" y="166" width="360" height="34" rx="7" fill="#fdf8f8" stroke="#ecdcdd"/>
+    <text x="214" y="188" font-family="Manrope" font-size="10.5" fill="#7c666b">PostgreSQL / TimescaleDB · laporan, riwayat, audit</text>
+    <rect x="576" y="166" width="220" height="34" rx="7" fill="#fdf8f8" stroke="#ecdcdd"/>
+    <text x="590" y="188" font-family="Manrope" font-size="10.5" fill="#7c666b">Redis · cache ringkasan 5 dtk</text>
+    <path d="M280 134 L280 162" stroke="#e0cacd" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <path d="M714 134 L714 162" stroke="#e0cacd" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <text x="20" y="226" font-family="Manrope" font-size="9.5" fill="#9a8286">Payload masuk → validasi → ekstraksi fitur → prediksi → peringkat → distribusi ke layar. Setiap tahap menyimpan jejak audit.</text>
+  </svg>
+
+  <h3>8.1 Kontrak data yang dipakai antarmuka</h3>
+  <div class="cols two">
+    <div>
+      <table class="tbl" style="margin-top:0">
+        <thead><tr><th>Endpoint</th><th>Kegunaan</th></tr></thead>
+        <tbody>
+          <tr><td><b>GET /dashboard/summary</b></td><td>KPI, alert, status model</td></tr>
+          <tr><td><b>GET /priority?limit=5</b></td><td>Peringkat WP + TOPSIS</td></tr>
+          <tr><td><b>GET /buildings/{id}</b></td><td>Detail, komponen, riwayat</td></tr>
+          <tr><td><b>POST /assignments</b></td><td>Penugasan tim &amp; audit</td></tr>
+          <tr><td><b>WS /stream</b></td><td>Delta laporan &amp; status</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="code"><span class="c">// payload dari mobile surveyor</span>
+{
+  <span class="k">"id_bangunan"</span>: <span class="s">"B-182"</span>,
+  <span class="k">"koordinat"</span>: [<span class="n">-7.98</span>, <span class="n">112.63</span>],
+  <span class="k">"status_pca"</span>: <span class="s">"Rusak Berat"</span>,
+  <span class="k">"prediksi_nnbp"</span>: <span class="n">0.9381</span>,
+  <span class="k">"skor_dss"</span>: <span class="n">9.85</span>,
+  <span class="k">"surveyor"</span>: <span class="s">"B-12"</span>,
+  <span class="k">"waktu"</span>: <span class="s">"2026-11-03T14:28:00+07:00"</span>
+}</div>
+    </div>
+  </div>
+
+  <p class="small" style="margin-bottom:0">Frontend menyimpan ringkasan di cache dan hanya mengganti bagian yang berubah saat delta tiba. Bila WebSocket terputus, ia beralih ke polling 15 detik dan menandai data sebagai “tertunda”. Penugasan memakai idempotency key agar klik ganda tidak mengirim dua tim. Otorisasi berbasis peran: surveyor hanya menulis laporan, operator memvalidasi, eksekutif menugaskan; semua tindakan masuk audit log.</p>
+
+  <h3>8.2 Anggaran respons &amp; pengamanan</h3>
+  <div class="cols two">
+    <table class="tbl" style="margin:0">
+      <thead><tr><th>Interaksi</th><th>Target</th></tr></thead>
+      <tbody>
+        <tr><td>Ringkasan pertama tampil</td><td><b>&lt; 2 detik</b> · cache 5 dtk</td></tr>
+        <tr><td>Detail bangunan (p95)</td><td><b>180 ms</b></td></tr>
+        <tr><td>Delta WebSocket ke layar</td><td><b>&lt; 1 detik</b></td></tr>
+        <tr><td>Konfirmasi penugasan</td><td><b>&lt; 800 ms</b></td></tr>
+      </tbody>
+    </table>
+    <ul class="tight small" style="margin:0">
+      <li><b>JWT + RBAC:</b> surveyor, operator, dan eksekutif punya izin berbeda.</li>
+      <li><b>Idempotency key</b> pada POST agar klik ganda tidak menduplikasi tim.</li>
+      <li><b>Audit log</b> merekam aktor, waktu, area, dan rekomendasi.</li>
+      <li><b>Masking</b> nama kepala keluarga pada ekspor; data pribadi tidak tampil di peta publik.</li>
+    </ul>
+  </div>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">12</span></div>
+</section>
+
+<!-- ================= 9. EVALUASI ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">09 · Evaluasi &amp; kesimpulan</div>
+  </div>
+
+  <div class="kicker">09 · Evaluasi &amp; kesimpulan</div>
+  <h2>Apakah tugasnya benar-benar terjawab?</h2>
+  <p class="lead">Saya mengecek hasil terhadap tiga syarat komponen inti dan empat fokus penilaian pada slide tugas. Kolom bukti menunjuk ke bagian laporan atau berkas agar klaim dapat diverifikasi, bukan sekadar dinyatakan.</p>
+
+  <table class="tbl">
+    <thead><tr><th style="width:42%">Ketentuan tugas</th><th style="width:46%">Bukti pada rancangan</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><b>Peta dengan aturan tiga warna (GLCM–PCA)</b></td><td>Pin hijau/oranye/merah, legenda berjumlah, ikon berbeda, ukuran berbeda; halaman 7 dan 8.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Tabel prioritas evakuasi/bantuan (DSS)</b></td><td>Top 5 area, skor WP/TOPSIS, status Utama/Tinggi/Sedang/Pantau, kesiapan sumber daya.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Metrik real-time &amp; probabilitas NNBP 93,81%</b></td><td>KPI langsung, timestamp, umpan aktivitas, gauge keyakinan, probabilitas per kelas di panel detail.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Alur pengguna</b></td><td>Diagram lima langkah + putaran pemantauan; aturan tiga klik; pemisahan mode keputusan/pemantauan.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Hierarki visual</b></td><td>Zona 1–5, F-pattern, KPI kiri atas, peta dominan, aksi di kanan; grid 12 kolom.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Kesesuaian mode gelap</b></td><td>Tiga tingkat permukaan, kontras terukur, warna status konsisten, tanpa hitam-putih ekstrem.</td><td><span class="check">Terpenuhi</span></td></tr>
+      <tr><td><b>Prinsip integrasi data backend</b></td><td>Endpoint, payload JSON, WebSocket + fallback, status data, audit, idempotensi.</td><td><span class="check">Terpenuhi</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="cols two" style="margin-top:1mm">
+    <div>
+      <h3 style="margin-top:1mm">9.1 Evaluasi heuristik singkat</h3>
+      <table class="tbl" style="margin-top:0">
+        <tbody>
+          <tr><td><b>Visibilitas status</b></td><td>Selalu ada timestamp, status API, dan label “langsung”.</td></tr>
+          <tr><td><b>Kesesuaian dunia nyata</b></td><td>Istilah BPBD, WP/TOPSIS, GLCM–PCA, NNBP dipakai konsisten.</td></tr>
+          <tr><td><b>Kontrol &amp; kebebasan</b></td><td>Filter, jeda umpan, tutup panel, Esc, dan Ctrl+K.</td></tr>
+          <tr><td><b>Konsistensi</b></td><td>Satu arti untuk satu warna; satu pola tombol.</td></tr>
+          <tr><td><b>Pencegahan error</b></td><td>Konfirmasi penugasan, idempotensi, tombol nonaktif sesuai peran.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 style="margin-top:1mm">9.2 Keterbatasan</h3>
+      <ul class="tight small">
+        <li>Data dan koordinat simulasi; belum ada pengujian dengan data BPBD nyata.</li>
+        <li>Belum ada usability test formal dengan eksekutif; evaluasi masih berbasis prinsip dan pembacaan mandiri.</li>
+        <li>Peta menggunakan basemap pihak ketiga; perlu tile resmi dan atribusi yang disepakati untuk produksi.</li>
+        <li>Model tidak dijalankan ulang; angka 93,81% mengikuti materi, bukan hasil validasi baru.</li>
+        <li>Mode terang belum dirancang; token sudah disiapkan, tetapi kontrasnya perlu diuji ulang.</li>
+      </ul>
+      <p class="small" style="margin-bottom:0"><b>Langkah berikutnya:</b> uji guerilla dengan 3–5 pejabat BPBD, ukur waktu menemukan area terparah dan mengirim penugasan; lalu lanjutkan ke prototipe React dengan API nyata dan audit aksesibilitas.</p>
+    </div>
+  </div>
+
+  <h3>9.3 Kesimpulan</h3>
+  <p class="small">Rancangan ini menjawab tugas bukan dengan menumpuk grafik, tetapi dengan menyusun urutan keputusan. Peta tiga warna memberi lokasi, tabel prioritas memberi urutan, dan badge keyakinan memberi izin untuk bertindak. Mode gelap, hierarki F-pattern, serta perilaku real-time menjaga ketiganya tetap terbaca di ruang kendali yang sibuk. Yang masih perlu dilengkapi adalah validasi lapangan: desain yang baik harus berani diuji oleh orang yang akan memakainya di hari terburuk.</p>
+
+  <div class="pfoot"><span>Tugas Minggu 9 · Sistem Informasi</span><span class="num">13</span></div>
+</section>
+
+<!-- ================= LAMPIRAN ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">Lampiran A · berkas &amp; referensi</div>
+  </div>
+
+  <div class="kicker">Lampiran A</div>
+  <h2>Berkas, cara menjalankan, dan rujukan</h2>
+
+  <div class="cols two">
+    <div>
+      <h3 style="margin-top:0">A. Struktur berkas</h3>
+      <div class="code"><span class="c">Tugas Minggu 9 - Command Center/</span>
+├─ mockup/
+│  ├─ index.html
+│  └─ assets/
+│     ├─ css/styles.css
+│     ├─ js/app.js · data.js
+│     ├─ fonts/Manrope-latin.woff2
+│     └─ img/map-malang.png
+├─ screenshots/
+│  ├─ 01-dashboard-utama.png
+│  ├─ 02-detail-bangunan.png
+│  ├─ 03-data-masuk.png
+│  ├─ 04-laptop-1366.png
+│  ├─ 05-user-flow.png
+│  └─ 06-anatomi.png
+├─ laporan/
+│  ├─ 240605110176_Farrel Faiziaulhaq Azmi_Tugas Minggu 9 SI.pdf
+│  └─ diagrams/
+├─ README.md
+└─ README.txt</div>
+      <h3>B. Menjalankan purwarupa</h3>
+      <p class="small">Buka <b>mockup/index.html</b> di Chrome atau Edge. Tidak perlu server; seluruh aset lokal. Gunakan <b>?static=1</b> untuk membekukan simulasi saat presentasi, <b>?detail=B-182</b> untuk langsung membuka panel contoh, dan <b>Ctrl+K</b> untuk fokus ke pencarian. Tombol “Langsung” menjeda atau melanjutkan umpan data.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">C. Token ringkas</h3>
+      <div class="code">{
+  <span class="k">"color"</span>: {
+    <span class="k">"bg"</span>: <span class="s">"#060A12"</span>,
+    <span class="k">"surface"</span>: <span class="s">"#0C1422"</span>,
+    <span class="k">"border"</span>: <span class="s">"#1B2940"</span>,
+    <span class="k">"accent"</span>: <span class="s">"#38BDF8"</span>,
+    <span class="k">"ringan"</span>: <span class="s">"#22C55E"</span>,
+    <span class="k">"sedang"</span>: <span class="s">"#F59E0B"</span>,
+    <span class="k">"berat"</span>: <span class="s">"#EF4444"</span>
+  },
+  <span class="k">"radius"</span>: { <span class="k">"card"</span>: <span class="n">16</span>, <span class="k">"control"</span>: <span class="n">10</span> },
+  <span class="k">"grid"</span>: { <span class="k">"cols"</span>: <span class="n">12</span>, <span class="k">"gutter"</span>: <span class="n">24</span> }
+}</div>
+      <h3>D. Referensi</h3>
+      <p class="tiny" style="line-height:1.7; margin-bottom:0">
+        1. Materi Kuliah Sistem Informasi Minggu 9 — <i>UI/UX Dashboard &amp; Visualisasi Real-Time DSS</i>, Program Studi Teknik Informatika, UIN Maulana Malik Ibrahim Malang, 2026.<br/>
+        2. Video pembelajaran “Pemodelan Cerdas Pascabencana”, 3 November 2026.<br/>
+        3. W3C, <i>Web Content Accessibility Guidelines (WCAG) 2.1</i>, 2018 — kriteria kontras 1.4.3 dan 1.4.11.<br/>
+        4. Nielsen, J., <i>10 Usability Heuristics for User Interface Design</i>, Nielsen Norman Group.<br/>
+        5. OpenStreetMap Foundation &amp; Esri, basemap <i>Dark Gray Canvas</i> (atribusi pada peta).
+      </p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:3mm">
+    <b>Pernyataan.</b> Mockup, diagram, dan laporan ini disusun untuk Tugas Minggu 9. Seluruh data operasional bersifat simulasi; tidak ada data pribadi atau dokumen BPBD yang digunakan. Basemap memakai atribusi terbuka dan tidak diklaim sebagai milik penulis.
+  </div>
+
+  <h3 style="margin-top:4mm">E. Checklist serah-terima</h3>
+  <div class="cols two">
+    <ul class="tight small" style="margin-bottom:0">
+      <li><span class="check">✓</span> Purwarupa interaktif — <b>mockup/index.html</b></li>
+      <li><span class="check">✓</span> Screenshot utama, detail, live, laptop — <b>screenshots/</b></li>
+      <li><span class="check">✓</span> Diagram alur &amp; anatomi — <b>05-user-flow.png</b>, <b>06-anatomi.png</b></li>
+    </ul>
+    <ul class="tight small" style="margin-bottom:0">
+      <li><span class="check">✓</span> Laporan PDF — <b>laporan/240605110176_…pdf</b></li>
+      <li><span class="check">✓</span> Data simulasi — <b>assets/js/data.js</b></li>
+      <li><span class="check">✓</span> Petunjuk menjalankan — <b>README.md</b></li>
+      <li><span class="check">✓</span> Tautan repositori — <b>Lampiran B (hlm. 15)</b></li>
+    </ul>
+  </div>
+
+  <div class="pfoot"><span>Farrel Faiziaulhaq Azmi · 240605110176 · Kelas G</span><span class="num">14</span></div>
+</section>
+
+<!-- ================= LAMPIRAN B — REPOSITORI ================= -->
+<section class="page">
+  <div class="phead">
+    <div class="brandline"><i></i> SIAGA · Tugas Minggu 9</div>
+    <div class="right">Lampiran B · repositori</div>
+  </div>
+
+  <div class="kicker">Lampiran B · Tautan proyek</div>
+  <h2>Repositori &amp; akses proyek</h2>
+  <p class="lead">Seluruh berkas mockup, screenshot, diagram, dan laporan disimpan pada repositori GitHub publik. Tautan ini menjadi salinan kerja yang dapat diperiksa, di-clone, dan dijalankan ulang tanpa perlu mengirim folder manual.</p>
+
+  <div class="repo-card">
+    <div>
+      <div class="repo-label">GitHub · Repositori publik</div>
+      <a class="repo-url" href="https://github.com/farrelfaiziaulhaq/siaga-command-center" target="_blank" rel="noopener">github.com/farrelfaiziaulhaq/siaga-command-center</a>
+      <p>SIAGA Command Center — purwarupa dashboard eksekutif pascabencana. Berisi kode mockup, data simulasi, screenshot, laporan PDF, dan sumber diagram.</p>
+      <div class="repo-tags">
+        <span>PUBLIC</span><span>BRANCH MAIN</span><span>HTML · CSS · JS</span><span>15 HALAMAN LAPORAN</span>
+      </div>
+    </div>
+    <div>
+      <div class="qr-box"><img src="img/github-qr.png" alt="QR code menuju repositori GitHub proyek" /></div>
+      <div class="qr-cap">Pindai untuk membuka repositori</div>
+    </div>
+  </div>
+
+  <div class="cols two">
+    <div>
+      <h3 style="margin-top:0">B.1 Menjalankan dari sumber</h3>
+      <div class="code"><span class="c"># clone repositori</span>
+git clone https://github.com/farrelfaiziaulhaq/siaga-command-center.git
+<span class="c"># masuk ke folder proyek</span>
+cd siaga-command-center
+<span class="c"># Windows</span>
+start mockup/index.html
+<span class="c"># macOS / Linux</span>
+open mockup/index.html</div>
+      <p class="small" style="margin-top:2mm; margin-bottom:0">Tidak ada proses build, dependensi, atau server. Semua aset (font dan basemap) sudah tersimpan di dalam repositori sehingga mockup tetap berjalan luring.</p>
+    </div>
+    <div>
+      <h3 style="margin-top:0">B.2 Demo langsung</h3>
+      <div class="link-box">
+        <div class="label">GitHub Pages</div>
+        <a href="https://farrelfaiziaulhaq.github.io/siaga-command-center/mockup/" target="_blank" rel="noopener">farrelfaiziaulhaq.github.io/siaga-command-center/mockup/</a>
+      </div>
+      <div class="link-box" style="margin-top:2.4mm">
+        <div class="label">Laporan PDF di repositori</div>
+        <a href="https://github.com/farrelfaiziaulhaq/siaga-command-center/blob/main/laporan/240605110176_Farrel%20Faiziaulhaq%20Azmi_Tugas%20Minggu%209%20SI.pdf" target="_blank" rel="noopener">laporan/240605110176_…_Tugas Minggu 9 SI.pdf</a>
+      </div>
+      <div class="kv" style="margin-top:3mm">
+        <div><span>Visibilitas</span><b>Publik</b></div>
+        <div><span>Branch utama</span><b>main</b></div>
+        <div><span>Pembaruan</span><b>3 November 2026</b></div>
+        <div><span>Lisensi</span><b>Karya akademik</b></div>
+      </div>
+    </div>
+  </div>
+
+  <h3>B.3 Isi repositori</h3>
+  <table class="tbl" style="margin-bottom:0">
+    <thead><tr><th style="width:20%">Folder</th><th>Isi</th><th style="width:22%">Dibuka dengan</th></tr></thead>
+    <tbody>
+      <tr><td><b>mockup/</b></td><td>index.html, CSS, JavaScript, data simulasi, font, basemap</td><td>Browser</td></tr>
+      <tr><td><b>laporan/</b></td><td>PDF 15 halaman, sumber HTML, dan diagram</td><td>PDF viewer</td></tr>
+      <tr><td><b>screenshots/</b></td><td>Enam tangkapan layar resolusi 2×</td><td>Image viewer</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top:4mm; margin-bottom:0">
+    <b>Catatan akses.</b> Repositori bersifat publik agar tautan dapat dibuka oleh dosen dan asisten. Tidak ada kredensial, data pribadi, atau dokumen internal BPBD di dalamnya; seluruh angka pada purwarupa adalah data simulasi.
+  </div>
+
+  <div class="pfoot"><span>Farrel Faiziaulhaq Azmi · 240605110176 · Kelas G</span><span class="num">15</span></div>
+</section>
+
+</body>
+</html>
